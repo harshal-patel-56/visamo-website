@@ -142,14 +142,14 @@
                             <h3>Search property</h3>
                         </div>
                         <div class="property_form">
-                            <form action="{{ url_for('property') }}" method="post" id="search_form">
+                            <form action="#" method="post" id="search_form">
                                 <div class="row">
                                     <div class="col-xl-12">
                                         <div class="form_wrap d-flex">
                                             <div class="single-field max_width ">
                                                 <label for="location_list">Location</label>
                                                 <select class="wide" id="location_list" name="location_list">
-                                                    <option data-display="Gotri" value="Gotri">Gotri</option>
+                                                    <option value="Gotri">Gotri</option>
                                                     <option value="Waghodia">Waghodia</option>
                                                     <option value="Gorwa">Gorwa</option>
                                                     <option value="Alakapuri">Alakapuri</option>
@@ -158,8 +158,7 @@
                                             <div class="single-field max_width ">
                                                 <label for="property_types">Property type</label>
                                                 <select class="wide" id="property_types" name="property_types">
-                                                    <option data-display="Apartment" value="Apartment">Apartment
-                                                    </option>
+                                                    <option value="Apartment">Apartment</option>
                                                     <option value="Bungalow">Bungalow</option>
                                                     <option value="Penthouse">Penthouse</option>
                                                     <option value="Farm House">Farm House</option>
@@ -168,8 +167,8 @@
                                             <div class="single-field max_width">
                                                 <label for="range">Price Range (in Lakhs)</label>
                                                 <div id="range">
-                                                    <input class="wide" type="number" name="min_val" placeholder="min">
-                                                    <input class="wide" type="number" name="max_val" placeholder="max">
+                                                    <input class="wide" type="number" id="range_lower" name="min_val" placeholder="min">
+                                                    <input class="wide" type="number" id="range_upper" name="max_val" placeholder="max">
                                                 </div>
 
                                                 <!-- <div id="slider"></div>-->
@@ -177,7 +176,7 @@
                                             <div class="single-field min_width ">
                                                 <label for="bed_rooms">Bed Room</label>
                                                 <select class="wide" id="bed_rooms" name="bed_rooms">
-                                                    <option data-display="01" value="01">01</option>
+                                                    <option value="01">01</option>
                                                     <option value="01">02</option>
                                                     <option value="03+">03+</option>
                                                 </select>
@@ -185,7 +184,7 @@
                                             <div class="single-field min_width ">
                                                 <label for="bath_rooms">Bath Room</label>
                                                 <select class="wide" id="bath_rooms" name="bath_rooms">
-                                                    <option data-display="01" value="01">01</option>
+                                                    <option value="01">01</option>
                                                     <option value="02">02</option>
                                                     <option value="03+">03+</option>
                                                 </select>
@@ -226,48 +225,48 @@
         </div>
         <div class="row">
             {% for property in property_list %}
-            <div class="col-xl-4 col-md-6 col-lg-4">
-                <div class="single_property">
-                    <div class="property_thumb">
-                        <div class="property_tag {{ 'red' if property.for == 'Rent' else '' }}">
-                            For {{ property.for }}
-                        </div>
-                        <img src="static/img/property/1.png" alt="">
-                    </div>
-                    <div class="property_content">
-                        <div class="main_pro">
-                            <h3><a href="#">{{ property.type }}</a></h3>
-                            <div class="mark_pro">
-                                <img src="static/img/svg_icon/location.svg" alt="">
-                                <span>{{ property.location }}</span>
+                <div class="col-xl-4 col-md-6 col-lg-4">
+                    <div class="single_property">
+                        <div class="property_thumb">
+                            <div class="property_tag {{ 'red' if property.for == 'Rent' else '' }}">
+                                For {{ property.for }}
                             </div>
-                            <span class="amount"> ₹ {{ property.price / 100000 | round(2) }} Lakh {{ '/Year' if property.for == 'Rent' else ''}}</span>
+                            <img src="static/img/property/1.png" alt="">
                         </div>
-                    </div>
-                    <div class="footer_pro">
-                        <ul>
-                            <li>
-                                <div class="single_info_doc">
-                                    <img src="static/img/svg_icon/square.svg" alt="">
-                                    <span>1200 Sqft</span>
+                        <div class="property_content">
+                            <div class="main_pro">
+                                <h3><a href="#">{{ property.type }}</a></h3>
+                                <div class="mark_pro">
+                                    <img src="static/img/svg_icon/location.svg" alt="">
+                                    <span>{{ property.location }}</span>
                                 </div>
-                            </li>
-                            <li>
-                                <div class="single_info_doc">
-                                    <img src="static/img/svg_icon/bed.svg" alt="">
-                                    <span>{{ property.bedrooms }} Bed</span>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="single_info_doc">
-                                    <img src="static/img/svg_icon/bath.svg" alt="">
-                                    <span>{{ property.bathrooms }} Bath</span>
-                                </div>
-                            </li>
-                        </ul>
+                                <span class="amount"> ₹ {{ property.price / 100000 | round(2) }} Lakh {{ '/Year' if property.for == 'Rent' else '' }}</span>
+                            </div>
+                        </div>
+                        <div class="footer_pro">
+                            <ul>
+                                <li>
+                                    <div class="single_info_doc">
+                                        <img src="static/img/svg_icon/square.svg" alt="">
+                                        <span>1200 Sqft</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="single_info_doc">
+                                        <img src="static/img/svg_icon/bed.svg" alt="">
+                                        <span>{{ property.bedrooms }} Bed</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="single_info_doc">
+                                        <img src="static/img/svg_icon/bath.svg" alt="">
+                                        <span>{{ property.bathrooms }} Bath</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
             {% endfor %}
 
         </div>
@@ -443,18 +442,24 @@
 
 <script src="static/js/main.js"></script>
 <script>
-    function collision($div1, $div2) {
-        var x1 = $div1.offset().left;
-        var w1 = 40;
-        var r1 = x1 + w1;
-        var x2 = $div2.offset().left;
-        var w2 = 40;
-        var r2 = x2 + w2;
+    {% if val | length > 0 %}
+        setSelectedValue(document.getElementById('loaction'), "{{ val[0] }}");
+        setSelectedValue(document.getElementById('property_types'), "{{ val[1] }}");
+        setSelectedValue(document.getElementById('range_lower'), "{{ val[2] }}");
+        setSelectedValue(document.getElementById('range_upper'), "{{ val[3] }}");
+        setSelectedValue(document.getElementById('bed_rooms'), "{{ val[4] }}");
+        setSelectedValue(document.getElementById('bath_rooms'), "{{ val[5] }}");
 
-        if (r1 < x2 || x1 > r2)
-            return false;
-        return true;
-    }
+        function setSelectedValue(selectObj, valueToSet) {
+            for (var i = 0; i < selectObj.options.length; i++) {
+                if (selectObj.options[i].value === valueToSet) {
+                    selectObj.options[i].selected = true;
+                    return;
+                }
+            }
+        }
+    {% endif %}
+
 
     // Fetch Url value
     var getQueryString = function (parameter) {
