@@ -134,6 +134,9 @@
                         <h3>Find your best Property</h3>
                         <p>Esteem spirit temper too say adieus who direct esteem.</p>
                     </div>
+
+
+
                     <div class="property_form">
                         <form action="{{ url_for('property') }}" method="post" id="search_form">
                             <div class="row">
@@ -142,48 +145,51 @@
                                         <div class="single-field max_width ">
                                             <label for="location_list">Location</label>
                                             <select class="wide" id="location_list" name="location_list">
-                                                <option data-display="Gotri" value="Gotri">Gotri</option>
-                                                <option value="Waghodia">Waghodia</option>
-                                                <option value="Gorwa">Gorwa</option>
-                                                <option value="Alakapuri">Alakapuri</option>
+
+                                                {% for location in locations %}
+                                                    <option value="{{ location[0] }}">{{ location[1] }}</option>
+                                                {% endfor %}
+
                                             </select>
                                         </div>
                                         <div class="single-field max_width ">
                                             <label for="property_types">Property type</label>
                                             <select class="wide" id="property_types" name="property_types">
-                                                <option data-display="Apartment" value="Apartment">Apartment</option>
-                                                <option value="Bungalow">Bungalow</option>
-                                                <option value="Penthouse">Penthouse</option>
-                                                <option value="Farm House">Farm House</option>
-                                            </select>
-                                        </div>
-                                        <div class="single-field max_width">
-                                            <label for="range">Price Range (in Lakhs)</label>
-                                            <div id="range">
-                                                <input class="wide" type="number" name="min_val" placeholder="min">
-                                                <input class="wide" type="number" name="max_val" placeholder="max">
-                                            </div>
 
-                                            <!--                                                                <div id="slider"></div>-->
-                                        </div>
-                                        <div class="single-field min_width ">
-                                            <label for="bed_rooms">Bed Room</label>
-                                            <select class="wide" id="bed_rooms" name="bed_rooms">
-                                                <option data-display="01" value="01">01</option>
-                                                <option value="01">02</option>
-                                                <option value="03+">03+</option>
+                                                {% for property_type in property_types %}
+                                                    <option value="{{ property_type[0] }}">{{ property_type[1] }}</option>
+                                                {% endfor %}
+
                                             </select>
                                         </div>
+
                                         <div class="single-field min_width ">
-                                            <label for="bath_rooms">Bath Room</label>
-                                            <select class="wide" id="bath_rooms" name="bath_rooms">
-                                                <option data-display="01" value="01">01</option>
-                                                <option value="02">02</option>
-                                                <option value="03+">03+</option>
+                                            <label for="sale_types">Property For</label>
+                                            <select class="wide" id="sale_types" name="sale_types">
+
+                                                {% for sale_type in sale_types %}
+                                                    <option value="{{ sale_type[0] }}">{{ sale_type[1] }}</option>
+                                                {% endfor %}
+
                                             </select>
                                         </div>
-                                        <div class="serach_icon"
-                                             onclick="document.getElementById('search_form').submit()">
+
+                                        <div class="single-field min_width ">
+                                            <label for="condition">Condition</label>
+                                            <select class="wide" id="condition" name="condition">
+                                                <option value="New">New</option>
+                                                <option value="Resale">Resale</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="single_field range_slider">
+                                            <label for="slider">Price Range</label>
+                                            <div id="slider">
+                                            </div>
+                                            <input type="hidden" id="minval" name="min_val" value="">
+                                            <input type="hidden" id="maxval" name="max_val" value="">
+                                        </div>
+                                        <div class="serach_icon" onclick="document.getElementById('search_form').submit();">
                                             <a href="#">
                                                 <i class="ti-search"></i>
                                             </a>
@@ -1127,6 +1133,13 @@
 
 <script src="static/js/main.js"></script>
 <script>
+
+    function submit_form() {
+        document.getElementById('slider_min').value = document.getElementById('minval').value;
+        document.getElementById('slider_max').value = document.getElementById('maxval').value;
+        document.getElementById('search_form').submit();
+    }
+
     function collision($div1, $div2) {
         var x1 = $div1.offset().left;
         var w1 = 40;
@@ -1160,13 +1173,14 @@
 
         slide: function (event, ui) {
 
-            $('.ui-slider-handle:eq(0) .price-range-min').html(ui.values[0] + 'K');
-            $('.ui-slider-handle:eq(1) .price-range-max').html(ui.values[1] + 'K');
-            $('.price-range-both').html('<i>K' + ui.values[0] + ' - </i>K' + ui.values[1]);
+            $('.ui-slider-handle:eq(0) .price-range-min').html(ui.values[0] + 'L');
+            $('.ui-slider-handle:eq(1) .price-range-max').html(ui.values[1] + 'L');
+            $('.price-range-both').html('<i>L' + ui.values[0] + ' - </i>L' + ui.values[1]);
 
             // get values of min and max
             $("#minval").val(ui.values[0]);
             $("#maxval").val(ui.values[1]);
+
 
             if (ui.values[0] == ui.values[1]) {
                 $('.price-range-both i').css('display', 'none');
@@ -1189,10 +1203,10 @@
         ' - </i>' + $('#slider').slider('values', 1) + '</span>');
 
     $('.ui-slider-handle:eq(0)').append('<span class="price-range-min value" id="slider_min_val">' + $('#slider').slider('values', 0) +
-        'k</span>');
+        'L</span>');
 
     $('.ui-slider-handle:eq(1)').append('<span class="price-range-max value" id="slider_max_val">' + $('#slider').slider('values', 1) +
-        'k</span>');
+        'L</span>');
 </script>
 </body>
 

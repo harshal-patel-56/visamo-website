@@ -7,7 +7,9 @@ PASSWORD = ""
 
 # DEFAULT DB CONFIGURATIONS
 DB_NAME = "visamo"
-LOCATIONS_TABLE = "locations"
+LOCATIONS_TABLE = "location"
+PROPERTY_TYPES_TABLE = "property_type"
+SALE_TYPES_TABLE = "sale_type"
 
 # CONNECTION TO DB
 db = mysql.connector.connect(host=HOSTNAME, user=USERNAME, passwd=PASSWORD, database=DB_NAME)
@@ -24,11 +26,33 @@ def create_query_statement(fields, table_name, conditional_expression=""):
 
 # Method to fetch all the locations from DB
 def get_locations():
-    list_of_fields = ['location_name']
+    list_of_fields = ['location_id','location_name']
     query = create_query_statement(list_of_fields, LOCATIONS_TABLE)
-    print("QUERY    : " + query)
+    # print("QUERY    : " + query)
     db_cursor.execute(query)
 
     list_of_locations = db_cursor.fetchall()
 
     return list_of_locations
+
+# Method to fetch all the property types from DB
+def get_property_types():
+    list_of_fields = ['property_type_id','property_type_description']
+    query = create_query_statement(list_of_fields, PROPERTY_TYPES_TABLE)
+    # print("QUERY    : " + query)
+    db_cursor.execute(query)
+
+    list_of_property_types = db_cursor.fetchall()
+
+    return list_of_property_types
+
+# Method to fetch all the sale types from DB
+def get_sale_types():
+    list_of_fields = ['sale_type_id','sale_type_description']
+    query = create_query_statement(list_of_fields, SALE_TYPES_TABLE)
+    # print("QUERY    : " + query)
+    db_cursor.execute(query)
+
+    list_of_sale_types = db_cursor.fetchall()
+
+    return list_of_sale_types
