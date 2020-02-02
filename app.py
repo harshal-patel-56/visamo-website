@@ -1,12 +1,15 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, session
 import config
 
 app = Flask(__name__)
+# Secret Key for session
+app.secret_key = 'portofino'
 
 
 @app.route('/')
 def index():
     return render_template('index.html')
+
 
 @app.route('/property', methods=['POST'])
 def property():
@@ -26,7 +29,6 @@ def property():
         count += 1
         property_list.append(x)
 
-
         return render_template('property.html', property_count=count, property_list=property_list)
 
 
@@ -39,6 +41,4 @@ def property_get():
         count += 1
         property_list.append(x)
 
-
     return render_template('property.html', property_count=count, property_list=property_list)
-
