@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify, session
-import config
+import db_config
 
 app = Flask(__name__)
 # Secret Key for session
@@ -22,7 +22,7 @@ def property():
 
     print(location, property_type, bed_rooms, bath_rooms, range_min, range_max)
     query = { '$and': [ { "price": { '$gt': range_min} }, { "price": { '$lt': range_max  } }, {"location": location}, {"type": property_type}, {"bedrooms": {'$gte': bed_rooms}}, {"bathrooms": {'$gte': bath_rooms}} ] }
-    result = config.collection.find(query)
+    result = db_config.collection.find(query)
     count = 0
     property_list = []
     for x in result:
@@ -30,15 +30,3 @@ def property():
         property_list.append(x)
 
         return render_template('property.html', property_count=count, property_list=property_list)
-
-
-@app.route('/property', methods=['GET'])
-def property_get():
-    result = config.collection.find()
-    count = 0
-    property_list = []
-    for x in result:
-        count += 1
-        property_list.append(x)
-
-    return render_template('property.html', property_count=count, property_list=property_list)
