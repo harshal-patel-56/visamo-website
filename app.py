@@ -8,6 +8,7 @@ app.secret_key = 'portofino'
 
 @app.route('/')
 def index():
+
     return render_template('index.html')
 
 

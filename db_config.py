@@ -3,7 +3,7 @@ import mysql.connector
 # DEFAULT MySQL CONNECTION CONFIGURATIONS
 HOSTNAME = "localhost"
 USERNAME = "root"
-PASSWORD = "root"
+PASSWORD = ""
 
 # DEFAULT DB CONFIGURATIONS
 DB_NAME = "visamo"
