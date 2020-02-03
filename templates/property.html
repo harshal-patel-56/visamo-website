@@ -80,14 +80,86 @@
                                 </form>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- slider_area_end -->
+    <div class="popular_property plus_padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="section_title mb-40 text-center">
+                        <h4>{{ property_list | length }} Properties found</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                {% for property in property_list %}
+
+                    {% if property[3] == "Buy" %}
+                        {% set col = '' %}
+                    {% elif property[3] == "Rent" %}
+                        {% set col = 'red' %}
+                    {% else %}
+                        {% set col = 'blue' %}
+                    {% endif %}
+                    <div class="col-xl-4 col-md-6 col-lg-4">
+                        <div class="single_property">
+                            <div class="property_thumb">
+                                <div class="property_tag {{ col }}">
+                                    For {{ property[3] }}
+                                </div>
+                                <img src="static/img/property/1.png" alt="">
+                            </div>
+                            <div class="property_content">
+                                <div class="main_pro">
+                                    <h3><a href="#">{{ property[0] }}</a></h3>
+                                    <div class="mark_pro">
+                                        <img src="static/img/svg_icon/location.svg" alt="">
+                                        <span>{{ property[2] }}</span>
+                                    </div>
+                                    <span class="amount">₹{{ property[4] / 100000 | round(2) }} Lakh {{ '/Year' if col == 'red' else '' }}</span>
+                                </div>
+                            </div>
+                            <div class="footer_pro">
+                                <ul>
+                                    <li>
+                                        <div class="single_info_doc">
+                                            <img src="static/img/svg_icon/square.svg" alt="">
+                                            <span>{{ property[5] }}</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="single_info_doc">
+                                            <img src="static/img/svg_icon/bed.svg" alt="">
+                                            <span>2 Bed</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="single_info_doc">
+                                            <img src="static/img/svg_icon/bath.svg" alt="">
+                                            <span>{{ property[1] }}</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                {% endfor %}
+
+            </div>
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="more_property_btn text-center">
+                        <a href="#" class="boxed-btn3-line">More Properties</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 {% block content %}
 {% endblock %}

@@ -248,7 +248,7 @@
                                 <img src="static/img/svg_icon/location.svg" alt="">
                                 <span>{{ property[2] }}</span>
                             </div>
-                            <span class="amount">₹{{ property[4] }} Lakh {{ '/Year' if col == 'red' else '' }}</span>
+                            <span class="amount">₹{{ property[4] / 100000 | round(2) }} Lakh {{ '/ Year' if col == 'red' else '' }}</span>
                         </div>
                     </div>
                     <div class="footer_pro">
