@@ -3117,6 +3117,10 @@ h3 {
 .popular_property .single_property .property_thumb .property_tag.red {
   background: #FF5748 !important;
 }
+.popular_property .single_property .property_thumb .property_tag.blue {
+  background: #4895ff !important;
+}
+
 
 /* line 47, ../../Arafath/CL/CL October/217. Real Estate/HTML/scss/_popular_property.scss */
 .popular_property .single_property .property_content {
@@ -6250,7 +6254,7 @@ h6 {
   width: 35px;
   height: 17px;
   border-radius: 8.5px;
-  background: #f9f9ff;
+  background: #8382FF;
   position: relative;
   cursor: pointer;
 }
@@ -6288,7 +6292,7 @@ h6 {
   bottom: 0;
   width: 100%;
   height: 100%;
-  background: transparent;
+  background: #8382FF;
   border-radius: 8.5px;
   cursor: pointer;
   -webkit-transition: all 0.2s;

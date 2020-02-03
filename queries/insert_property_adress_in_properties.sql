@@ -1,0 +1,1 @@
+ALTER TABLE `property` ADD `property_address` TEXT NOT NULL AFTER `description`;

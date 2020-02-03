@@ -1,0 +1,3 @@
+INSERT INTO `property` VALUES ('1', '69', 'Laxmi Villa', 'Ambient and spacious villa near Highway.', '23, Laxmi Villa, Waghodia Rd.', '5600000', '3', '1', '2119', '0', '1', '0', '1', '1', CURRENT_TIMESTAMP);
+INSERT INTO `property` VALUES ('2', '69', 'Greengold Apartments', 'Ambient and spacious Flats in City.', 'Greengold Apartments, Nr. Railway station.', '126000', '2', '2', '1200', '1', '1', '0', '1', '1', CURRENT_TIMESTAMP);
+INSERT INTO `property` VALUES ('3', '70', 'Student PG', '3 person sharing spacious rooms.', '47, Student PG, Opp MSU.', '250000', '2', '3', '3200', '3', '1', '0', '1', '1', CURRENT_TIMESTAMP);

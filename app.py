@@ -8,10 +8,13 @@ app.secret_key = 'portofino'
 
 @app.route('/')
 def index():
-    locations = db_config.get_locations()
-    property_types = db_config.get_property_types()
-    sale_types = db_config.get_sale_types()
-    return render_template('index.html', locations=locations, property_types=property_types, sale_types=sale_types)
+    property_list = db_config.get_all_properties()
+    dynamics = {
+        "locations": db_config.get_locations(),
+        "property_types": db_config.get_property_types(),
+        "sale_types": db_config.get_sale_types(),
+    }
+    return render_template('index.html', dynamics=dynamics, property_list=property_list)
 
 
 @app.route('/property', methods=['POST'])
@@ -32,5 +35,23 @@ def property():
     #     count += 1
     #     property_list.append(x)
 
-    return render_template('property.html')
 
+
+    dynamics = {
+        "locations" : db_config.get_locations(),
+        "property_types" : db_config.get_property_types(),
+        "sale_types" : db_config.get_sale_types(),
+    }
+
+
+
+    return render_template('property.html', dynamics = dynamics)
+
+@app.route('/register_property', methods=['GET', 'POST'])
+def register_property():
+    dynamics = {
+        "locations": db_config.get_locations(),
+        "property_types": db_config.get_property_types(),
+        "sale_types": db_config.get_sale_types(),
+    }
+    return render_template("register_property.html", dynamics=dynamics)

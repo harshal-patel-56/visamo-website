@@ -78,7 +78,7 @@
                     <div class="row align-items-center">
                         <div class="col-xl-3 col-lg-2">
                             <div class="logo">
-                                <a href="index.html">
+                                <a href="{{ url_for('index') }}">
                                     <img src="static/img/logo.png" alt="">
                                 </a>
                             </div>
@@ -87,9 +87,12 @@
                             <div class="main-menu  d-none d-lg-block">
                                 <nav>
                                     <ul id="navigation">
-                                        <li><a class="active" href="{{ url_for('index') }}">home</a></li>
-                                        <li><a href="{{ url_for('property') }}">Property</a></li>
-                                        <li><a href="#">blog <i class="ti-angle-down"></i></a>
+                                        {% set val_1 = 'active' %}
+                                        {% set val_2 = '' %}
+                                        {% set val_3 = '' %}
+                                        <li><a class="{{ val_1 }}" href="{{ url_for('index') }}">home</a></li>
+                                        <li><a class="{{ val_2 }}" href="{{ url_for('property') }}">Property</a></li>
+                                        <li><a class="{{ val_3 }}" href="#">blog <i class="ti-angle-down"></i></a>
                                             <ul class="submenu">
                                                 <li><a href="blog.html">blog</a></li>
                                                 <li><a href="single-blog.html">single-blog</a></li>
@@ -108,7 +111,7 @@
                                     </a>
                                 </div>
                                 <div class="book_btn d-none d-lg-block">
-                                    <a href="#">Add Property</a>
+                                    <a href="{{ url_for('register_property') }}">Add Property</a>
                                 </div>
                             </div>
                         </div>
@@ -125,8 +128,10 @@
 <!-- header-end -->
 
 <!-- slider_area_start -->
+{% block header_content %}
 <div class="slider_area">
-    <div class="single_slider  d-flex align-items-center slider_bg_1">
+    {% set bg_image_val = 'single_slider  d-flex align-items-center slider_bg_1' %}
+    <div class= "{{ bg_image_val }}">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-xl-10 offset-xl-1">
@@ -146,7 +151,7 @@
                                             <label for="location_list">Location</label>
                                             <select class="wide" id="location_list" name="location_list">
 
-                                                {% for location in locations %}
+                                                {% for location in dynamics.locations %}
                                                     <option value="{{ location[0] }}">{{ location[1] }}</option>
                                                 {% endfor %}
 
@@ -156,7 +161,7 @@
                                             <label for="property_types">Property type</label>
                                             <select class="wide" id="property_types" name="property_types">
 
-                                                {% for property_type in property_types %}
+                                                {% for property_type in dynamics.property_types %}
                                                     <option value="{{ property_type[0] }}">{{ property_type[1] }}</option>
                                                 {% endfor %}
 
@@ -167,7 +172,7 @@
                                             <label for="sale_types">Property For</label>
                                             <select class="wide" id="sale_types" name="sale_types">
 
-                                                {% for sale_type in sale_types %}
+                                                {% for sale_type in dynamics.sale_types %}
                                                     <option value="{{ sale_type[0] }}">{{ sale_type[1] }}</option>
                                                 {% endfor %}
 
@@ -186,8 +191,8 @@
                                             <label for="slider">Price Range</label>
                                             <div id="slider">
                                             </div>
-                                            <input type="hidden" id="minval" name="min_val" value="">
-                                            <input type="hidden" id="maxval" name="max_val" value="">
+                                            <input type="hidden" id="minval" name="min_val" value="0">
+                                            <input type="hidden" id="maxval" name="max_val" value="999">
                                         </div>
                                         <div class="serach_icon" onclick="document.getElementById('search_form').submit();">
                                             <a href="#">
@@ -206,7 +211,8 @@
     </div>
 </div>
 <!-- slider_area_end -->
-
+{% endblock %}
+{% block content %}
 <!-- popular_property  -->
 <div class="popular_property">
     <div class="container">
@@ -218,22 +224,31 @@
             </div>
         </div>
         <div class="row">
+            {% for property in property_list %}
+
+                {% if property[3] == "Buy" %}
+                            {% set col = '' %}
+                        {% elif property[3] == "Rent" %}
+                            {% set col = 'red' %}
+                        {% else %}
+                            {% set col = 'blue' %}
+                        {% endif %}
             <div class="col-xl-4 col-md-6 col-lg-4">
                 <div class="single_property">
                     <div class="property_thumb">
-                        <div class="property_tag">
-                            For Sale
+                        <div class="property_tag {{ col }}">
+                            For {{ property[3]  }}
                         </div>
                         <img src="static/img/property/1.png" alt="">
                     </div>
                     <div class="property_content">
                         <div class="main_pro">
-                            <h3><a href="#">Comfortable Apartment in Palace</a></h3>
+                            <h3><a href="#">{{ property[0] }}</a></h3>
                             <div class="mark_pro">
                                 <img src="static/img/svg_icon/location.svg" alt="">
-                                <span>Popular Properties</span>
+                                <span>{{ property[2] }}</span>
                             </div>
-                            <span class="amount">From $20k</span>
+                            <span class="amount">₹{{ property[4] }} Lakh {{ '/Year' if col == 'red' else '' }}</span>
                         </div>
                     </div>
                     <div class="footer_pro">
@@ -241,7 +256,7 @@
                             <li>
                                 <div class="single_info_doc">
                                     <img src="static/img/svg_icon/square.svg" alt="">
-                                    <span>1999 Sqft</span>
+                                    <span>{{ property[5] }}</span>
                                 </div>
                             </li>
                             <li>
@@ -253,223 +268,16 @@
                             <li>
                                 <div class="single_info_doc">
                                     <img src="static/img/svg_icon/bath.svg" alt="">
-                                    <span>2 Bath</span>
+                                    <span>{{ property[1] }}</span>
                                 </div>
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
-            <div class="col-xl-4 col-md-6 col-lg-4">
-                <div class="single_property">
-                    <div class="property_thumb">
-                        <div class="property_tag red">
-                            For Rent
-                        </div>
-                        <img src="static/img/property/2.png" alt="">
-                    </div>
-                    <div class="property_content">
-                        <div class="main_pro">
-                            <h3><a href="#">Comfortable Apartment in Palace</a></h3>
-                            <div class="mark_pro">
-                                <img src="static/img/svg_icon/location.svg" alt="">
-                                <span>Popular Properties</span>
-                            </div>
-                            <span class="amount">$563/month</span>
-                        </div>
-                    </div>
-                    <div class="footer_pro">
-                        <ul>
-                            <li>
-                                <div class="single_info_doc">
-                                    <img src="static/img/svg_icon/square.svg" alt="">
-                                    <span>1999 Sqft</span>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="single_info_doc">
-                                    <img src="static/img/svg_icon/bed.svg" alt="">
-                                    <span>2 Bed</span>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="single_info_doc">
-                                    <img src="static/img/svg_icon/bath.svg" alt="">
-                                    <span>2 Bath</span>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-4 col-md-6 col-lg-4">
-                <div class="single_property">
-                    <div class="property_thumb">
-                        <div class="property_tag">
-                            For Sale
-                        </div>
-                        <img src="static/img/property/3.png" alt="">
-                    </div>
-                    <div class="property_content">
-                        <div class="main_pro">
-                            <h3><a href="#">Comfortable Apartment in Palace</a></h3>
-                            <div class="mark_pro">
-                                <img src="static/img/svg_icon/location.svg" alt="">
-                                <span>Popular Properties</span>
-                            </div>
-                            <span class="amount">From $20k</span>
-                        </div>
-                    </div>
-                    <div class="footer_pro">
-                        <ul>
-                            <li>
-                                <div class="single_info_doc">
-                                    <img src="static/img/svg_icon/square.svg" alt="">
-                                    <span>1999 Sqft</span>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="single_info_doc">
-                                    <img src="static/img/svg_icon/bed.svg" alt="">
-                                    <span>2 Bed</span>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="single_info_doc">
-                                    <img src="static/img/svg_icon/bath.svg" alt="">
-                                    <span>2 Bath</span>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-4 col-md-6 col-lg-4">
-                <div class="single_property">
-                    <div class="property_thumb">
-                        <div class="property_tag red">
-                            For Rent
-                        </div>
-                        <img src="static/img/property/4.png" alt="">
-                    </div>
-                    <div class="property_content">
-                        <div class="main_pro">
-                            <h3><a href="#">Comfortable Apartment in Palace</a></h3>
-                            <div class="mark_pro">
-                                <img src="static/img/svg_icon/location.svg" alt="">
-                                <span>Popular Properties</span>
-                            </div>
-                            <span class="amount">$563/month</span>
-                        </div>
-                    </div>
-                    <div class="footer_pro">
-                        <ul>
-                            <li>
-                                <div class="single_info_doc">
-                                    <img src="static/img/svg_icon/square.svg" alt="">
-                                    <span>1999 Sqft</span>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="single_info_doc">
-                                    <img src="static/img/svg_icon/bed.svg" alt="">
-                                    <span>2 Bed</span>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="single_info_doc">
-                                    <img src="static/img/svg_icon/bath.svg" alt="">
-                                    <span>2 Bath</span>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-4 col-md-6 col-lg-4">
-                <div class="single_property">
-                    <div class="property_thumb">
-                        <div class="property_tag">
-                            For Sale
-                        </div>
-                        <img src="static/img/property/5.png" alt="">
-                    </div>
-                    <div class="property_content">
-                        <div class="main_pro">
-                            <h3><a href="#">Comfortable Apartment in Palace</a></h3>
-                            <div class="mark_pro">
-                                <img src="static/img/svg_icon/location.svg" alt="">
-                                <span>Popular Properties</span>
-                            </div>
-                            <span class="amount">From $20k</span>
-                        </div>
-                    </div>
-                    <div class="footer_pro">
-                        <ul>
-                            <li>
-                                <div class="single_info_doc">
-                                    <img src="static/img/svg_icon/square.svg" alt="">
-                                    <span>1999 Sqft</span>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="single_info_doc">
-                                    <img src="static/img/svg_icon/bed.svg" alt="">
-                                    <span>2 Bed</span>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="single_info_doc">
-                                    <img src="static/img/svg_icon/bath.svg" alt="">
-                                    <span>2 Bath</span>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-4 col-md-6 col-lg-4">
-                <div class="single_property">
-                    <div class="property_thumb">
-                        <div class="property_tag">
-                            For Sale
-                        </div>
-                        <img src="static/img/property/6.png" alt="">
-                    </div>
-                    <div class="property_content">
-                        <div class="main_pro">
-                            <h3><a href="#">Comfortable Apartment in Palace</a></h3>
-                            <div class="mark_pro">
-                                <img src="static/img/svg_icon/location.svg" alt="">
-                                <span>Popular Properties</span>
-                            </div>
-                            <span class="amount">From $20k</span>
-                        </div>
-                    </div>
-                    <div class="footer_pro">
-                        <ul>
-                            <li>
-                                <div class="single_info_doc">
-                                    <img src="static/img/svg_icon/square.svg" alt="">
-                                    <span>1999 Sqft</span>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="single_info_doc">
-                                    <img src="static/img/svg_icon/bed.svg" alt="">
-                                    <span>2 Bed</span>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="single_info_doc">
-                                    <img src="static/img/svg_icon/bath.svg" alt="">
-                                    <span>2 Bath</span>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+
+            {% endfor %}
+
         </div>
         <div class="row">
             <div class="col-xl-12">
@@ -990,6 +798,7 @@
 </div>
 <!-- /contact_action_area  -->
 
+{% endblock %}
 <!-- footer start -->
 <footer class="footer">
     <div class="footer_top">
@@ -1133,6 +942,8 @@
 
 <script src="static/js/main.js"></script>
 <script>
+
+
 
     function submit_form() {
         document.getElementById('slider_min').value = document.getElementById('minval').value;
