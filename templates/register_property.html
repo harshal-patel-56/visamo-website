@@ -1,0 +1,198 @@
+{% extends "properties.html" %}
+{% block dynamic %}
+    <li><a class="" href="{{ url_for('index') }}">home</a></li>
+    <li><a class="active" href="{{ url_for('properties') }}">Property</a></li>
+    {% if admin == 'admin' %}
+        {% block menu_item %}
+            <li><a class="" href="{{ url_for('pending_properties') }}">Approve</a></li>
+        {% endblock %}
+    {% endif %}
+{% endblock %}
+{% block header_content %}
+    <div class="slider_area">
+        {% set bg_image_val = 'single_slider single_slider2  d-flex align-items-center property_bg overlay2' %}
+        <div class="{{ bg_image_val }}">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-xl-10 offset-xl-1">
+                        <div class="property_wrap">
+                            <div class="slider_text text-center justify-content-center">
+                                <h3>Register properties</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- slider_area_end -->
+{% endblock %}
+{% block content %}
+    <div class="container mt-5 mb-5">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <div class="mt-10">
+                    {{ status_message }}
+                </div>
+                <form action="{{ url_for('register_property') }}" id="property_form" method="post"
+                      enctype="multipart/form-data">
+                    <div class="mt-10">
+                        <label for="property_name">Property Name</label>
+                        <input type="text" name="property_name" id="property_name" placeholder="Property Name"
+                               onfocus="this.placeholder = ''"
+                               onblur="this.placeholder = 'Property Name'" required class="single-input">
+                    </div>
+
+                    <div class="mt-10">
+                        <label for="property_description">Description (10-200 characters)</label>
+                        <input type="text" name="property_description" id="property_description"
+                               placeholder="Property Description" onfocus="this.placeholder = ''"
+                               onblur="this.placeholder = 'Property Description'" required class="single-input"
+                               pattern="^[A-Za-z0-9][A-Za-z0-9\,\ \.]{9,199}$">
+                    </div>
+
+                    <label for="address" class="mt-3">Address </label>
+                    <div class="input-group-icon" id="address">
+                        <div class="icon"><i class="fa fa-thumb-tack" aria-hidden="true"></i></div>
+                        <input type="text" name="address" placeholder="Address"
+                               onfocus="this.placeholder = ''"
+                               onblur="this.placeholder = 'Address'" required class="single-input">
+                    </div>
+
+                    <div class="mt-10">
+                        <label for="price">Price (in Lakhs) </label>
+                        <input type="number" step="0.01" name="price" placeholder="Price in Lakhs"
+                               onfocus="this.placeholder = ''"
+                               onblur="this.placeholder = 'Price in Lakhs'" required class="single-input">
+                    </div>
+
+                    <label class="mt-3" for="location">Location </label>
+                    <div class="input-group-icon" id="location">
+                        <div class="icon"><i class="fa fa-map-marker" aria-hidden="true"></i></div>
+                        <div class="form-select">
+                            <select style="display: none;" name="location" required>
+
+                                {% for location in dynamics.locations %}
+                                    <option value="{{ location[0] }}">{{ location[1] }}</option>
+                                {% endfor %}
+
+                            </select>
+                        </div>
+                    </div>
+
+                    <label class="mt-3" for="property_type">Property type </label>
+                    <div class="input-group-icon" id="property_type">
+                        <div class="icon"><i class="fa fa-inr" aria-hidden="true"></i></div>
+                        <div class="form-select">
+                            <select style="display: none;" name="property_type" required>
+
+                                {% for property_type in dynamics.property_types %}
+                                    <option value="{{ property_type[0] }}">{{ property_type[1] }}</option>
+                                {% endfor %}
+
+                            </select>
+                        </div>
+                    </div>
+
+                    <label class="mt-3" for="sale_type">Property for </label>
+                    <div class="input-group-icon" id="sale_type">
+                        <div class="icon"><i class="fa fa-inr" aria-hidden="true"></i></div>
+                        <div class="form-select">
+                            <select style="display: none;" name="sale_type" required>
+
+                                {% for sale_type in dynamics.sale_types %}
+                                    <option value="{{ sale_type[0] }}">{{ sale_type[1] }}</option>
+                                {% endfor %}
+
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mt-10">
+                        <label for="price">Area (in SqFt) </label>
+                        <input type="number" step="1.0" name="area" placeholder="Area in SqFt"
+                               onfocus="this.placeholder = ''"
+                               onblur="this.placeholder = 'Area in SqFt'" required class="single-input">
+                    </div>
+
+                    <div class="switch-wrap d-flex justify-content-between mt-4">
+                        <p>Is this a new properties?</p>
+                        <div class="primary-switch">
+                            <input type="checkbox" id="primary_switch">
+                            <label for="primary_switch" onclick="check_aging()"></label>
+                        </div>
+                    </div>
+
+                    <div class="mt-10">
+                        <label for="ageing_years"> How old the properties is? </label>
+                        <input type="number" step="0.1" id="ageing_years" name="age" placeholder="No of years"
+                               onfocus="this.placeholder = ''"
+                               onblur="this.placeholder = 'No of years'" required class="single-input">
+                    </div>
+
+                    <div class="switch-wrap d-flex justify-content-between mt-4">
+                        <p>Are you the Owner of this properties?</p>
+                        <div class="primary-switch">
+                            <input type="checkbox" id="primary_switch1" name="is_owner">
+                            <label for="primary_switch1"></label>
+                        </div>
+                    </div>
+
+                    <div class="switch-wrap d-flex justify-content-between mt-4">
+                        <p>Add photographs of Property (JPG/JPEG) </p>
+                    </div>
+
+                    <div class="custom-file">
+                        <input type="file" name="image" class="custom-file-input mt-3" id="inputGroupFile01"
+                               aria-describedby="inputGroupFileAddon01" required onchange="check_file()">
+                        <label id="label_1" class="custom-file-label" for="inputGroupFile01">Image</label>
+                    </div>
+
+                    <div class="row d-flex justify-content-center mt-4">
+                        <input type="submit" class="genric-btn success-border circle mx-auto"
+                               style="width: 50%; margin-left: auto; margin-right: auto">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        function check_aging() {
+            {#alert(document.getElementById("primary_switch").value);#}
+            if (!document.getElementById("primary_switch").checked) {
+                {#alert("HEllo on");#}
+                document.getElementById("ageing_years").disabled = true;
+                document.getElementById("ageing_years").value = 0;
+            } else {
+                {#alert("HEllo off");#}
+                document.getElementById("ageing_years").disabled = false;
+            }
+        }
+
+        function check_file() {
+            var file_name = document.getElementById('inputGroupFile01').value.slice(12);
+            var exten = file_name.slice(file_name.lastIndexOf('.') + 1);
+            if (exten.toUpperCase() === 'JPG' || exten.toUpperCase() === 'JPEG') {
+                document.getElementById('label_1').innerHTML = file_name;
+            } else {
+                document.getElementById('inputGroupFile01').value = "";
+                document.getElementById('label_1').innerHTML = 'Image';
+                alert('Not a valid Filetype');
+            }
+        }
+    </script>
+    <script>
+        $('#inputGroupFile01').on('change', function () {
+            //get the file name
+            var temp = document.getElementById('inputGroupFile01').value.slice(12);
+            var ext = temp.slice(temp.lastIndexOf('.') + 1);
+            if (ext.toUpperCase() == 'JPG' || ext.toUpperCase() == 'JPEG' || ext.toUpperCase() == 'PNG') {
+                document.getElementById('lbl1').innerHTML = temp;
+            } else {
+                document.getElementById('inputGroupFile01').value = "";
+                document.getElementById('lbl1').innerHTML = 'Brochure';
+                alert('Not a valid Filetype');
+            }
+        })
+    </script>
+{% endblock %}

@@ -1,0 +1,114 @@
+{% extends "properties.html" %}
+{% block dynamic %}
+    <li><a class="" href="{{ url_for('index') }}">home</a></li>
+    <li><a class="" href="{{ url_for('properties') }}">Property</a></li>
+
+    {% block menu_item %}
+        <li><a class="active" href="{{ url_for('pending_properties') }}">Approve</a></li>
+    {% endblock %}
+{% endblock %}
+{% block header_content %}
+    <div class="slider_area">
+        {% set bg_image_val = 'single_slider single_slider2  d-flex align-items-center property_bg overlay2' %}
+        <div class="{{ bg_image_val }}">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-xl-10 offset-xl-1">
+                        <div class="property_wrap">
+                            <div class="slider_text text-center justify-content-center">
+                                <h3>Pending Requests</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- slider_area_end -->
+    <div class="popular_property plus_padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="section_title mb-40 text-center">
+                        <h4>{{ property_list | length }} Properties found</h4>
+                    </div>
+                </div>
+            </div>
+            <form action="{{ url_for('pending_properties') }}" method="post" id="approvalForm">
+                <div class="row">
+                    {% for property in property_list %}
+
+                        {% if property[3] == "Buy" %}
+                            {% set col = '' %}
+                        {% elif property[3] == "Rent" %}
+                            {% set col = 'red' %}
+                        {% else %}
+                            {% set col = 'blue' %}
+                        {% endif %}
+                        <div class="col-xl-4 col-md-6 col-lg-4">
+                            <div class="single_property">
+                                <div class="property_thumb">
+                                    <div class="property_tag {{ col }}">
+                                        For {{ property[3] }}
+                                    </div>
+                                    <img src="{{ property[6] }}" alt="">
+                                </div>
+                                <div class="property_content">
+                                    <div class="main_pro">
+                                        <h3>
+                                            <a href="{{ url_for('display_property') }}?p_id={{ property[7] }}">{{ property[0] }}</a>
+                                        </h3>
+                                        <div class="mark_pro">
+                                            <img src="static/img/svg_icon/location.svg" alt="">
+                                            <span>{{ property[2] }}</span>
+                                        </div>
+                                        <span class="amount">₹{{ property[4] / 100000 | round(2) }} Lakh {{ '/Year' if col == 'red' else '' }}</span>
+
+                                    </div>
+                                </div>
+                                <div class="footer_pro">
+                                    <ul>
+                                        <li>
+                                            <div class="single_info_doc">
+                                                <img src="static/img/svg_icon/square.svg" alt="">
+                                                <span>{{ property[5] }}</span>
+                                            </div>
+                                        </li>
+
+
+                                        <li>
+                                            <div style="margin-right: 0" class="single_info_doc">
+                                                <img src="static/img/svg_icon/building.svg" alt="">
+                                                <span>{{ property[1] }}</span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="switch-wrap d-flex justify-content-center footer_pro_req">
+                                    <p>Approve : &nbsp;</p>
+                                    <div class="primary-checkbox mt-2">
+                                        <input type="checkbox" id="{{ property[7] }}" name="{{ property[7] }}">
+                                        <label for="{{ property[7] }}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    {% endfor %}
+
+                </div>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="more_property_btn text-center"
+                             onclick="document.getElementById('approvalForm').submit()">
+                            <a href="#" class="boxed-btn3-line">Approve</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+{% endblock %}
