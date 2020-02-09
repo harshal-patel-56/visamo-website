@@ -1,7 +1,13 @@
 {% extends "index.html" %}
-{% set val_1 = '' %}
-{% set val_2 = 'active' %}
-{% set val_3 = '' %}
+{% block dynamic %}
+    <li><a class="" href="{{ url_for('index') }}">home</a></li>
+    <li><a class="active" href="{{ url_for('properties') }}">Property</a></li>
+    {% if admin == 'admin' %}
+        {% block menu_item %}
+            <li><a class="" href="{{ url_for('pending_properties') }}">Approve</a></li>
+        {% endblock %}
+    {% endif %}
+{% endblock %}
 
 {% block header_content %}
     <div class="slider_area">
@@ -12,11 +18,11 @@
                     <div class="col-xl-10 offset-xl-1">
                         <div class="property_wrap">
                             <div class="slider_text text-center justify-content-center">
-                                <h3>Search property</h3>
+                                <h3>Search properties</h3>
                             </div>
 
                             <div class="property_form">
-                                <form action="{{ url_for('property') }}" method="post" id="search_form">
+                                <form action="{{ url_for('properties') }}" method="post" id="search_form">
                                     <div class="row">
                                         <div class="col-xl-12">
                                             <div class="form_wrap d-flex">
@@ -111,16 +117,17 @@
                                 <div class="property_tag {{ col }}">
                                     For {{ property[3] }}
                                 </div>
-                                <img src="static/img/property/1.png" alt="">
+                                <img src="{{ property[6] }}" alt="">
                             </div>
                             <div class="property_content">
                                 <div class="main_pro">
-                                    <h3><a href="#">{{ property[0] }}</a></h3>
+                                    <h3><a href="{{ url_for('display_property') }}?p_id={{ property[7] }}">{{ property[0] }}</a></h3>
                                     <div class="mark_pro">
                                         <img src="static/img/svg_icon/location.svg" alt="">
                                         <span>{{ property[2] }}</span>
                                     </div>
                                     <span class="amount">₹{{ property[4] / 100000 | round(2) }} Lakh {{ '/Year' if col == 'red' else '' }}</span>
+
                                 </div>
                             </div>
                             <div class="footer_pro">
@@ -131,15 +138,10 @@
                                             <span>{{ property[5] }}</span>
                                         </div>
                                     </li>
+
                                     <li>
-                                        <div class="single_info_doc">
-                                            <img src="static/img/svg_icon/bed.svg" alt="">
-                                            <span>2 Bed</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="single_info_doc">
-                                            <img src="static/img/svg_icon/bath.svg" alt="">
+                                        <div style="margin-right: 0" class="single_info_doc">
+                                            <img src="static/img/svg_icon/building.svg" alt="">
                                             <span>{{ property[1] }}</span>
                                         </div>
                                     </li>

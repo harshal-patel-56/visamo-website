@@ -1,7 +1,7 @@
 Frontend
 ------------------
 user(user_id, username, password, first_name, last_name, phone_number, email_address, has_subscribed, is_pro_enabled)
-property(user_id, property_id, property_name, description, price, location_id, sale_type_id, area, ageing, is_owner, is_featured , is_available, is_approved, created)
+properties(user_id, property_id, property_name, description, price, location_id, sale_type_id, area, ageing, is_owner, is_featured , is_available, is_approved, created)
 location(location_id, location_name, landmark, city, state, country)
 property_type(property_type_id, type, is_commercial_space)
 image(image_id, property_id, src_path, is_thumbnail)
