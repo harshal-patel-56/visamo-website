@@ -169,9 +169,12 @@ def insert_property(property_id, user_id, property_name, property_description, a
     db.commit()
     return True
 
+
 def approve(PROPERTY_ID):
     query = f"""UPDATE `property` SET is_approved = 1 WHERE property_id = '{PROPERTY_ID}'"""
 
     db_cursor.execute(query)
     db.commit()
     return True
+
+# def add_user():

@@ -1,4 +1,5 @@
 import uuid
+import flask_login
 from PIL import Image
 
 from flask import Flask, render_template, request, jsonify, session
@@ -76,7 +77,8 @@ def register_property():
         is_owner = int(1) if request.form.get("is_owner") == 'on' else int(0)
         image_file = request.files['image']
         temp = image_file.filename
-        src_path = "static/img/property/" + str(property_id) + "." + temp.split(".")[-1]
+        src_path = "static/img/property/" + str(property_id) + str(property_name)[:4].upper() + "." + temp.split(".")[
+            -1]
         image_file.save(src_path)
 
         image = Image.open(src_path)
@@ -103,3 +105,6 @@ def pending_properties():
 
         pending_properties_list = db_config.get_pending_properties()
     return render_template("approval_requests.html", property_list=pending_properties_list, admin=ADMIN_NAME)
+
+# @app.route('/sign_up',methods=['GET','POST'])
+# def sign_up():
