@@ -26,7 +26,7 @@ def create_query_statement(fields, table_name, conditional_expression=""):
 
 # Method to real escape characters...
 def real_escape_string(string):
-    return string.replace("'", "\\\'")
+    return str(string).replace("'", "\\\'")
 
 
 # Method to fetch all the locations from DB
