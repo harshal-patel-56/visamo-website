@@ -24,9 +24,14 @@ def create_query_statement(fields, table_name, conditional_expression=""):
     return "SELECT " + column_names + " FROM " + table_name + conditional_expression + ";"
 
 
+# Method to real escape characters...
+def real_escape_string(string):
+    return string.replace("'", "\\\'")
+
+
 # Method to fetch all the locations from DB
 def get_locations():
-    list_of_fields = ['location_id','location_name']
+    list_of_fields = ['location_id', 'location_name']
     query = create_query_statement(list_of_fields, LOCATIONS_TABLE)
     # print("QUERY    : " + query)
     db_cursor.execute(query)
@@ -153,12 +158,24 @@ def get_pending_properties():
     list_of_pending_properties = db_cursor.fetchall()
     return list_of_pending_properties
 
+
 def insert_property(property_id, user_id, property_name, property_description, address, price, location, property_type,
                     sale_type, area, age, is_owner, src_path):
-    address = address.replace("'","\\\'")
+    property_id = real_escape_string(property_id)
+    user_id = real_escape_string(user_id)
+    property_name = real_escape_string(property_name)
+    property_description = real_escape_string(property_description)
+    address = real_escape_string(address)
+    price = real_escape_string(price)
+    location = real_escape_string(location)
+    property_type = real_escape_string(property_type)
+    sale_type = real_escape_string(sale_type)
+    area = real_escape_string(area)
+    age = real_escape_string(age)
+    src_path = real_escape_string(src_path)
+
     query = f"""INSERT INTO `property` (`property_id`, `user_id`, `property_name`, `description`, `property_address`, `price`, `location_id`, `property_type_id`, `sale_type_id`, `area`, `ageing`, `is_owner`, `is_featured`, `is_available`, `is_approved`, `created`) 
                 VALUES ('{property_id}', '{user_id}', '{property_name}', '{property_description}', '{address}', '{price}', '{location}', '{property_type}', '{sale_type}', '{area}', '{age}', '{is_owner}', '0', '1', '0', CURRENT_TIMESTAMP)"""
-
 
     db_cursor.execute(query)
     db.commit()
