@@ -2,6 +2,9 @@
 {% block dynamic %}
     <li><a class="" href="{{ url_for('index') }}">home</a></li>
     <li><a class="active" href="{{ url_for('properties') }}">Property</a></li>
+    {% if username %}
+        <li><a href="{{ url_for('register_property') }}">Add Property</a></li>
+    {% endif %}
     {% if admin == 'admin' %}
         {% block menu_item %}
             <li><a class="" href="{{ url_for('pending_properties') }}">Approve</a></li>
@@ -121,7 +124,9 @@
                             </div>
                             <div class="property_content">
                                 <div class="main_pro">
-                                    <h3><a href="{{ url_for('display_property') }}?p_id={{ property[7] }}">{{ property[0] }}</a></h3>
+                                    <h3>
+                                        <a href="{{ url_for('display_property') }}?p_id={{ property[7] }}">{{ property[0] }}</a>
+                                    </h3>
                                     <div class="mark_pro">
                                         <img src="static/img/svg_icon/location.svg" alt="">
                                         <span>{{ property[2] }}</span>

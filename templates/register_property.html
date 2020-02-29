@@ -1,7 +1,10 @@
 {% extends "properties.html" %}
 {% block dynamic %}
     <li><a class="" href="{{ url_for('index') }}">home</a></li>
-    <li><a class="active" href="{{ url_for('properties') }}">Property</a></li>
+    <li><a href="{{ url_for('properties') }}">Property</a></li>
+    {% if username %}
+        <li><a class="active" href="{{ url_for('register_property') }}">Add Property</a></li>
+    {% endif %}
     {% if admin == 'admin' %}
         {% block menu_item %}
             <li><a class="" href="{{ url_for('pending_properties') }}">Approve</a></li>
@@ -17,7 +20,7 @@
                     <div class="col-xl-10 offset-xl-1">
                         <div class="property_wrap">
                             <div class="slider_text text-center justify-content-center">
-                                <h3>Register properties</h3>
+                                <h3>Register property</h3>
                             </div>
                         </div>
                     </div>
@@ -116,7 +119,7 @@
                     </div>
 
                     <div class="switch-wrap d-flex justify-content-between mt-4">
-                        <p>Is this a new properties?</p>
+                        <p>Is this a new property?</p>
                         <div class="primary-switch">
                             <input type="checkbox" id="primary_switch">
                             <label for="primary_switch" onclick="check_aging()"></label>

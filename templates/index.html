@@ -87,35 +87,46 @@
                             <div class="main-menu  d-none d-lg-block">
                                 <nav>
                                     <ul id="navigation">
-                                    {% block dynamic %}
-                                        <li><a class="active" href="{{ url_for('index') }}">home</a></li>
-                                        <li><a class="" href="{{ url_for('properties') }}">Property</a></li>
-{#                                        <li><a class="{{ val_3 }}" href="#">blog <i class="ti-angle-down"></i></a>#}
-{#                                            <ul class="submenu">#}
-{#                                                <li><a href="blog.html">blog</a></li>#}
-{#                                                <li><a href="single-blog.html">single-blog</a></li>#}
-{#                                            </ul>#}
-{#                                        </li>#}
-                                        {% if admin == 'admin' %}
-                                            {% block menu_item %}
-                                                <li><a class="" href="{{ url_for('pending_properties') }}">Approve</a></li>
-                                            {% endblock %}
-                                        {% endif %}
-                                    {% endblock %}
+                                        {% block dynamic %}
+                                            <li><a class="active" href="{{ url_for('index') }}">Home</a></li>
+                                            <li><a class="" href="{{ url_for('properties') }}">Property</a></li>
+                                            {#                                        <li><a class="{{ val_3 }}" href="#">blog <i class="ti-angle-down"></i></a>#}
+                                            {#                                            <ul class="submenu">#}
+                                            {#                                                <li><a href="blog.html">blog</a></li>#}
+                                            {#                                                <li><a href="single-blog.html">single-blog</a></li>#}
+                                            {#                                            </ul>#}
+                                            {#                                        </li>#}
+                                            {% if username %}
+                                                <li><a href="{{ url_for('register_property') }}">Add Property</a></li>
+                                            {% endif %}
+
+                                            {% if admin == 'admin' %}
+                                                {% block menu_item %}
+                                                    <li><a class=""
+                                                           href="{{ url_for('pending_properties') }}">Approve</a></li>
+                                                {% endblock %}
+                                            {% endif %}
+                                        {% endblock %}
                                     </ul>
                                 </nav>
                             </div>
                         </div>
-                        <div class="col-xl-3 col-lg-3 d-none d-lg-block">
-                            <div class="Appointment">
-                                <div class="search_btn">
-                                    <a href="#">
-                                        <i class="ti-search"></i>
-                                    </a>
-                                </div>
-                                <div class="book_btn d-none d-lg-block">
-                                    <a href="{{ url_for('register_property') }}">Add Property</a>
-                                </div>
+                        <div class="col-xl-3 col-lg-2">
+                            <div class="main-menu  d-none d-lg-block">
+                                <nav>
+                                    <ul id="navigation">
+                                        {% if username %}
+                                            <li style="float:right"><a href="#">{{ username }}&nbsp;&nbsp; <i
+                                                    class="ti-angle-down"></i></a>
+                                                <ul class="submenu">
+                                                    <li><a href="{{ url_for('register_property') }}">Add property</a>
+                                                    </li>
+                                                    <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+                                                </ul>
+                                            </li>
+                                        {% endif %}
+                                    </ul>
+                                </nav>
                             </div>
                         </div>
                         <div class="col-12">

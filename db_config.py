@@ -40,9 +40,10 @@ def get_locations():
 
     return list_of_locations
 
+
 # Method to fetch all the properties types from DB
 def get_property_types():
-    list_of_fields = ['property_type_id','property_type_description']
+    list_of_fields = ['property_type_id', 'property_type_description']
     query = create_query_statement(list_of_fields, PROPERTY_TYPES_TABLE)
     # print("QUERY    : " + query)
     db_cursor.execute(query)
@@ -51,9 +52,10 @@ def get_property_types():
 
     return list_of_property_types
 
+
 # Method to fetch all the sale types from DB
 def get_sale_types():
-    list_of_fields = ['sale_type_id','sale_type_description']
+    list_of_fields = ['sale_type_id', 'sale_type_description']
     query = create_query_statement(list_of_fields, SALE_TYPES_TABLE)
     # print("QUERY    : " + query)
     db_cursor.execute(query)
@@ -61,6 +63,7 @@ def get_sale_types():
     list_of_sale_types = db_cursor.fetchall()
 
     return list_of_sale_types
+
 
 # Method to fetch all the Properties from DB to render on index page
 def get_all_properties():
@@ -83,6 +86,7 @@ def get_all_properties():
     db_cursor.execute(query)
     list_of_all_properties = db_cursor.fetchall()
     return list_of_all_properties
+
 
 # Method to fetch all the Properties from DB to render on index page
 def get_requested_properties(LOCATION_ID, PROPERTY_TYPE, SALE_TYPE, GT_PRICE, LW_PRICE):
@@ -110,6 +114,7 @@ def get_requested_properties(LOCATION_ID, PROPERTY_TYPE, SALE_TYPE, GT_PRICE, LW
     list_of_all_properties = db_cursor.fetchall()
     return list_of_all_properties
 
+
 # Method to fetch all the info of Property
 def get_property_info(PROPERTY_ID):
     query = f"""SELECT
@@ -135,6 +140,7 @@ def get_property_info(PROPERTY_ID):
     db_cursor.execute(query)
     propertie_info = db_cursor.fetchall()
     return propertie_info
+
 
 # Method to fetch all the Properties from DB to render on index page
 def get_pending_properties():
@@ -194,4 +200,33 @@ def approve(PROPERTY_ID):
     db.commit()
     return True
 
-# def add_user():
+
+# Method for login validation
+def get_login(id, password):
+    query = f"""SELECT username, password FROM user"""
+    db_cursor.execute(query)
+    user_list = db_cursor.fetchall()
+    for u_id, u_password in user_list:
+        if id == u_id and password == u_password:
+            return 1
+        elif id == u_id and password != u_password:
+            return 2
+    return 3
+
+
+# Method to register a new user
+def register_user(username, password, f_name, l_name, contact, email):
+    query = f"""SELECT username from user"""
+    db_cursor.execute(query)
+    list_of_registered_users = db_cursor.fetchall()
+    checklist = []
+    for i in list_of_registered_users:
+        checklist.append(i[0])
+    if username not in checklist:
+        query = f"""INSERT INTO `user` (`username`, `password`, `first_name`, `last_name`, `phone_number`, `email`, `has_subscribed`, `is_pro_enabled`) 
+                    VALUES ('{real_escape_string(username)}', '{real_escape_string(password)}', '{real_escape_string(f_name)}', '{real_escape_string(l_name)}', '{real_escape_string(contact)}', '{real_escape_string(email)}', 0, 0);"""
+        db_cursor.execute(query)
+        db.commit()
+        return True
+    else:
+        return False
