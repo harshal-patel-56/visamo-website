@@ -13,18 +13,19 @@
     <!-- Place favicon.ico in the root directory -->
 
     <!-- CSS here -->
-    <link rel="stylesheet" href="static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="static/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="static/css/magnific-popup.css">
-    <link rel="stylesheet" href="static/css/font-awesome.min.css">
-    <link rel="stylesheet" href="static/css/themify-icons.css">
-    <link rel="stylesheet" href="static/css/nice-select.css">
-    <link rel="stylesheet" href="static/css/flaticon.css">
-    <link rel="stylesheet" href="static/css/gijgo.css">
-    <link rel="stylesheet" href="static/css/animate.css">
-    <link rel="stylesheet" href="static/css/slick.css">
-    <link rel="stylesheet" href="static/css/slicknav.css">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/static/css/magnific-popup.css">
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/themify-icons.css">
+    <link rel="stylesheet" href="/static/css/nice-select.css">
+    <link rel="stylesheet" href="/static/css/flaticon.css">
+    <link rel="stylesheet" href="/static/css/gijgo.css">
+    <link rel="stylesheet" href="/static/css/animate.css">
+    <link rel="stylesheet" href="/static/css/slick.css">
+    <link rel="stylesheet" href="/static/css/slicknav.css">
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="/static/css/ion.rangeSlider.min.css"/>
 
     <link rel="stylesheet" href="static/css/style.css">
     <!-- <link rel="stylesheet" href="static/css/responsive.css"> -->
@@ -76,17 +77,12 @@
             <div class="container">
                 <div class="header_bottom_border">
                     <div class="row align-items-center">
-                        <div class="col-xl-3 col-lg-2">
-                            <div class="logo">
-                                <a href="{{ url_for('index') }}">
-                                    <img src="static/img/logo.png" alt="">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-xl-6 col-lg-7">
+                        <div class="col-12">
                             <div class="main-menu  d-none d-lg-block">
                                 <nav>
                                     <ul id="navigation">
+                                        <li style="float: left"><a href="{{ url_for('index') }}"><h3
+                                                style="color: white">Visamo</h3></a></li>
                                         {% block dynamic %}
                                             <li><a class="active" href="{{ url_for('index') }}">Home</a></li>
                                             <li><a class="" href="{{ url_for('properties') }}">Property</a></li>
@@ -107,14 +103,6 @@
                                                 {% endblock %}
                                             {% endif %}
                                         {% endblock %}
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-2">
-                            <div class="main-menu  d-none d-lg-block">
-                                <nav>
-                                    <ul id="navigation">
                                         {% if username %}
                                             <li style="float:right"><a href="#">{{ username }}&nbsp;&nbsp; <i
                                                     class="ti-angle-down"></i></a>
@@ -130,7 +118,7 @@
                             </div>
                         </div>
                         <div class="col-12">
-                            <div class="mobile_menu d-block d-lg-none"></div>
+                            <div class="mobile_menu d-block d-lg-none mt-4"></div>
                         </div>
                     </div>
                 </div>
@@ -143,200 +131,368 @@
 
 <!-- slider_area_start -->
 {% block header_content %}
-<div class="slider_area">
-    {% set bg_image_val = 'single_slider  d-flex align-items-center slider_bg_1' %}
-    <div class= "{{ bg_image_val }}">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-xl-10 offset-xl-1">
-                    <div class="slider_text text-center justify-content-center">
-                        <h3>Find your best Property</h3>
-                        <p>Esteem spirit temper too say adieus who direct esteem.</p>
-                    </div>
+    <div class="slider_area">
+        {% set bg_image_val = 'single_slider  d-flex align-items-center slider_bg_1' %}
+        <div class="{{ bg_image_val }}">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-xl-10 offset-xl-1">
+                        <div class="slider_text text-center justify-content-center">
+                            <h3>Find your best Property</h3>
+                            <p>Esteem spirit temper too say adieus who direct esteem.</p>
+                        </div>
 
 
+                        <div class="property_form">
+                            <form action="{{ url_for('properties') }}" method="post" id="search_form">
+                                <div class="row">
+                                    <div class="col-xl-12">
+                                        <div class="form_wrap d-flex justify-content-center">
+                                            <div class="single-field max_width ">
+                                                <label for="location_list">Location</label>
+                                                <select class="wide" id="location_list" name="location_list">
 
-                    <div class="property_form">
-                        <form action="{{ url_for('properties') }}" method="post" id="search_form">
-                            <div class="row">
-                                <div class="col-xl-12">
-                                    <div class="form_wrap d-flex">
-                                        <div class="single-field max_width ">
-                                            <label for="location_list">Location</label>
-                                            <select class="wide" id="location_list" name="location_list">
+                                                    {% for location in dynamics.locations %}
+                                                        <option value="{{ location[0] }}">{{ location[1] }}</option>
+                                                    {% endfor %}
 
-                                                {% for location in dynamics.locations %}
-                                                    <option value="{{ location[0] }}">{{ location[1] }}</option>
-                                                {% endfor %}
-
-                                            </select>
-                                        </div>
-                                        <div class="single-field max_width">
-                                            <label for="property_types">Property type</label>
-                                            <select class="wide" id="property_types" name="property_types">
-
-                                                {% for property_type in dynamics.property_types %}
-                                                    <option value="{{ property_type[0] }}">{{ property_type[1] }}</option>
-                                                {% endfor %}
-
-                                            </select>
-                                        </div>
-
-                                        <div class="single-field min_width ">
-                                            <label for="sale_types">Property For</label>
-                                            <select class="wide" id="sale_types" name="sale_types">
-
-                                                {% for sale_type in dynamics.sale_types %}
-                                                    <option value="{{ sale_type[0] }}">{{ sale_type[1] }}</option>
-                                                {% endfor %}
-
-                                            </select>
-                                        </div>
-
-                                        <div class="single-field min_width ">
-                                            <label for="condition">Condition</label>
-                                            <select class="wide" id="condition" name="condition">
-                                                <option value="New">New</option>
-                                                <option value="Resale">Resale</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="single_field range_slider">
-                                            <label for="slider">Price Range</label>
-                                            <div id="slider">
+                                                </select>
                                             </div>
-                                            <input type="hidden" id="minval" name="min_val" value="0">
-                                            <input type="hidden" id="maxval" name="max_val" value="999">
-                                        </div>
-                                        <div class="serach_icon" onclick="document.getElementById('search_form').submit();">
-                                            <a href="#">
-                                                <i class="ti-search"></i>
-                                            </a>
-                                        </div>
+                                            <div class="single-field max_width">
+                                                <label for="property_types">Property type</label>
+                                                <select class="wide" id="property_types" name="property_types">
 
+                                                    {% for property_type in dynamics.property_types %}
+                                                        <option value="{{ property_type[0] }}">{{ property_type[1] }}</option>
+                                                    {% endfor %}
+
+                                                </select>
+                                            </div>
+
+                                            <div class="single-field min_width ">
+                                                <label for="sale_types">Property For</label>
+                                                <select class="wide" id="sale_types" name="sale_types">
+
+                                                    {% for sale_type in dynamics.sale_types %}
+                                                        <option value="{{ sale_type[0] }}">{{ sale_type[1] }}</option>
+                                                    {% endfor %}
+
+                                                </select>
+                                            </div>
+
+                                            <div class="single-field min_width ">
+                                                <label for="condition">Condition</label>
+                                                <select class="wide" id="condition" name="condition">
+                                                    <option value="New">New</option>
+                                                    <option value="Resale">Resale</option>
+                                                </select>
+                                            </div>
+
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </form>
+                                <div class="row mt-3">
+                                    <div class="col-xl-12">
+                                        <div class="form_wrap d-flex justify-content-center">
+                                            <div class="single_field col-md-4 mr-lg-5 mb-3">
+                                                <div class="col-12">
+                                                    <label for="range_1" style="color: #fdae5c">Price</label>
+                                                    <input id="range_1" type="text" name="range_1" value="">
+                                                </div>
+                                            </div>
+                                            <div class="serach_icon mt-4"
+                                                 onclick="document.getElementById('search_form').submit();">
+                                                <a href="#">
+                                                    <i class="ti-search"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- slider_area_end -->
+    <!-- slider_area_end -->
 {% endblock %}
 {% block content %}
-<!-- popular_property  -->
-<div class="popular_property">
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="section_title mb-40 text-center">
-                    <h3>Popular Properties</h3>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            {% for property in property_list %}
-
-                {% if property[3] == "Sale" %}
-                            {% set col = '' %}
-                        {% elif property[3] == "Rent" %}
-                            {% set col = 'red' %}
-                        {% else %}
-                            {% set col = 'blue' %}
-                        {% endif %}
-                <div class="col-xl-4 col-md-6 col-lg-4">
-                    <div class="single_property">
-                        <div class="property_thumb">
-                            <div class="property_tag {{ col }}">
-                                For {{ property[3] }}
-                            </div>
-                            <img src="{{ property[6] }}" alt="">
-                        </div>
-                        <div class="property_content">
-                            <div class="main_pro">
-                                <h3>
-                                    {#                                <a href="{{ url_for('display_property') }}?p_id={{ property[7] }}">{{ property[0] }}</a>#}
-                                    <a href="#">{{ property[0] }}</a>
-                                </h3>
-                                <div class="mark_pro">
-                                    <img src="static/img/svg_icon/location.svg" alt="">
-                                    <span>{{ property[2] }}</span>
-                                </div>
-                                <span class="amount">₹{{ property[4] / 100000 | round(2) }} Lakh {{ '/ Year' if col == 'red' else '' }}</span>
-                            </div>
-                        </div>
-                        <div class="footer_pro">
-                            <ul>
-                                <li>
-                                <div class="single_info_doc">
-                                    <img src="static/img/svg_icon/square.svg" alt="">
-                                    <span>{{ property[5] }} Sqft</span>
-                                </div>
-                            </li>
-                            <li style="margin-right: 0">
-                                <div class="single_info_doc">
-                                    <img src="static/img/svg_icon/building.svg" alt="">
-                                    <span>{{ property[1] }}</span>
-                                </div>
-                            </li>
-                        </ul>
+    <!-- popular_property  -->
+    <div class="popular_property">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="section_title mb-40 text-center">
+                        <h3>Popular Properties</h3>
                     </div>
                 </div>
             </div>
+            <div class="row">
+                {% for property in property_list %}
 
-            {% endfor %}
+                    {% if property[3] == "Sale" %}
+                        {% set col = '' %}
+                    {% elif property[3] == "Rent" %}
+                        {% set col = 'red' %}
+                    {% else %}
+                        {% set col = 'blue' %}
+                    {% endif %}
+                    <div class="col-xl-4 col-md-6 col-lg-4">
+                        <div class="single_property">
+                            <div class="property_thumb">
+                                <div class="property_tag {{ col }}">
+                                    For {{ property[3] }}
+                                </div>
+                                <img src="{{ property[6] }}" alt="">
+                            </div>
+                            <div class="property_content">
+                                <div class="main_pro">
+                                    <h3>
+                                        {#                                <a href="{{ url_for('display_property') }}?p_id={{ property[7] }}">{{ property[0] }}</a>#}
+                                        <a href="#">{{ property[0] }}</a>
+                                    </h3>
+                                    <div class="mark_pro">
+                                        <img src="static/img/svg_icon/location.svg" alt="">
+                                        <span>{{ property[2] }}</span>
+                                    </div>
+                                    <span class="amount">₹{{ property[4] / 100000 | round(2) }} Lakh {{ '/ Year' if col == 'red' else '' }}</span>
+                                </div>
+                            </div>
+                            <div class="footer_pro">
+                                <ul>
+                                    <li>
+                                        <div class="single_info_doc">
+                                            <img src="static/img/svg_icon/square.svg" alt="">
+                                            <span>{{ property[5] }} Sqft</span>
+                                        </div>
+                                    </li>
+                                    <li style="margin-right: 0">
+                                        <div class="single_info_doc">
+                                            <img src="static/img/svg_icon/building.svg" alt="">
+                                            <span>{{ property[1] }}</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
 
-        </div>
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="more_property_btn text-center">
-                    <a href="#" class="boxed-btn3-line">More Properties</a>
+                {% endfor %}
+
+            </div>
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="more_property_btn text-center">
+                        <a href="#" class="boxed-btn3-line">More Properties</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- /popular_property  -->
+    <!-- /popular_property  -->
 
-<!-- home_details  -->
-<div class="home_details">
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="home_details_active owl-carousel">
-                    <div class="single_details">
-                        <div class="row">
-                            <div class="col-xl-6 col-md-6">
-                                <div class="modern_home_info">
-                                    <div class="modern_home_info_inner">
+    <!-- home_details  -->
+    <div class="home_details">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="home_details_active owl-carousel">
+                        <div class="single_details">
+                            <div class="row">
+                                <div class="col-xl-6 col-md-6">
+                                    <div class="modern_home_info">
+                                        <div class="modern_home_info_inner">
                                                     <span class="for_sale">
                                                         For Sale
                                                     </span>
-                                        <div class="info_header">
-                                            <h3>Blue haven modern home</h3>
-                                            <div class="popular_pro d-flex">
-                                                <img src="static/img/svg_icon/location.svg" alt="">
-                                                <span>Popular Properties</span>
+                                            <div class="info_header">
+                                                <h3>Blue haven modern home</h3>
+                                                <div class="popular_pro d-flex">
+                                                    <img src="static/img/svg_icon/location.svg" alt="">
+                                                    <span>Popular Properties</span>
+                                                </div>
+                                            </div>
+                                            <div class="info_content">
+                                                <ul>
+                                                    <li><img src="static/img/svg_icon/square.svg" alt="">
+                                                        <span>1999 Sqft</span></li>
+                                                    <li><img src="static/img/svg_icon/bed.svg" alt="">
+                                                        <span>2 Bed</span>
+                                                    </li>
+                                                    <li><img src="static/img/svg_icon/bath.svg" alt="">
+                                                        <span>2 Bath</span>
+                                                    </li>
+                                                </ul>
+                                                <p>Esteem spirit temper too say adieus who direct esteem. It estee
+                                                    luckily
+                                                    or picture placing drawing. Apartments frequently or motionless on
+                                                    reasonable.</p>
+                                                <div class="prise_view_details d-flex justify-content-between align-items-center">
+                                                    <span>$4567</span>
+                                                    <a class="boxed-btn3-line" href="#">View Details</a>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="info_content">
-                                            <ul>
-                                                <li><img src="static/img/svg_icon/square.svg" alt="">
-                                                    <span>1999 Sqft</span></li>
-                                                <li><img src="static/img/svg_icon/bed.svg" alt=""> <span>2 Bed</span>
-                                                </li>
-                                                <li><img src="static/img/svg_icon/bath.svg" alt=""> <span>2 Bath</span>
-                                                </li>
-                                            </ul>
-                                            <p>Esteem spirit temper too say adieus who direct esteem. It estee luckily
-                                                or picture placing drawing. Apartments frequently or motionless on
-                                                reasonable.</p>
-                                            <div class="prise_view_details d-flex justify-content-between align-items-center">
-                                                <span>$4567</span>
-                                                <a class="boxed-btn3-line" href="#">View Details</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="single_details">
+                            <div class="row">
+                                <div class="col-xl-6 col-md-6">
+                                    <div class="modern_home_info">
+                                        <div class="modern_home_info_inner">
+                                                    <span class="for_sale">
+                                                        For Sale
+                                                    </span>
+                                            <div class="info_header">
+                                                <h3>Blue haven modern home</h3>
+                                                <div class="popular_pro d-flex">
+                                                    <img src="static/img/svg_icon/location.svg" alt="">
+                                                    <span>Popular Properties</span>
+                                                </div>
+                                            </div>
+                                            <div class="info_content">
+                                                <ul>
+                                                    <li><img src="static/img/svg_icon/square.svg" alt="">
+                                                        <span>1999 Sqft</span></li>
+                                                    <li><img src="static/img/svg_icon/bed.svg" alt="">
+                                                        <span>2 Bed</span>
+                                                    </li>
+                                                    <li><img src="static/img/svg_icon/bath.svg" alt="">
+                                                        <span>2 Bath</span>
+                                                    </li>
+                                                </ul>
+                                                <p>Esteem spirit temper too say adieus who direct esteem. It estee
+                                                    luckily
+                                                    or picture placing drawing. Apartments frequently or motionless on
+                                                    reasonable.</p>
+                                                <div class="prise_view_details d-flex justify-content-between align-items-center">
+                                                    <span>$4567</span>
+                                                    <a class="boxed-btn3-line" href="#">View Details</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="single_details">
+                            <div class="row">
+                                <div class="col-xl-6 col-md-6">
+                                    <div class="modern_home_info">
+                                        <div class="modern_home_info_inner">
+                                                    <span class="for_sale">
+                                                        For Sale
+                                                    </span>
+                                            <div class="info_header">
+                                                <h3>Blue haven modern home</h3>
+                                                <div class="popular_pro d-flex">
+                                                    <img src="static/img/svg_icon/location.svg" alt="">
+                                                    <span>Popular Properties</span>
+                                                </div>
+                                            </div>
+                                            <div class="info_content">
+                                                <ul>
+                                                    <li><img src="static/img/svg_icon/square.svg" alt="">
+                                                        <span>1999 Sqft</span></li>
+                                                    <li><img src="static/img/svg_icon/bed.svg" alt="">
+                                                        <span>2 Bed</span>
+                                                    </li>
+                                                    <li><img src="static/img/svg_icon/bath.svg" alt="">
+                                                        <span>2 Bath</span>
+                                                    </li>
+                                                </ul>
+                                                <p>Esteem spirit temper too say adieus who direct esteem. It estee
+                                                    luckily
+                                                    or picture placing drawing. Apartments frequently or motionless on
+                                                    reasonable.</p>
+                                                <div class="prise_view_details d-flex justify-content-between align-items-center">
+                                                    <span>$4567</span>
+                                                    <a class="boxed-btn3-line" href="#">View Details</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="single_details">
+                            <div class="row">
+                                <div class="col-xl-6 col-md-6">
+                                    <div class="modern_home_info">
+                                        <div class="modern_home_info_inner">
+                                                    <span class="for_sale">
+                                                        For Sale
+                                                    </span>
+                                            <div class="info_header">
+                                                <h3>Blue haven modern home</h3>
+                                                <div class="popular_pro d-flex">
+                                                    <img src="static/img/svg_icon/location.svg" alt="">
+                                                    <span>Popular Properties</span>
+                                                </div>
+                                            </div>
+                                            <div class="info_content">
+                                                <ul>
+                                                    <li><img src="static/img/svg_icon/square.svg" alt="">
+                                                        <span>1999 Sqft</span></li>
+                                                    <li><img src="static/img/svg_icon/bed.svg" alt="">
+                                                        <span>2 Bed</span>
+                                                    </li>
+                                                    <li><img src="static/img/svg_icon/bath.svg" alt="">
+                                                        <span>2 Bath</span>
+                                                    </li>
+                                                </ul>
+                                                <p>Esteem spirit temper too say adieus who direct esteem. It estee
+                                                    luckily
+                                                    or picture placing drawing. Apartments frequently or motionless on
+                                                    reasonable.</p>
+                                                <div class="prise_view_details d-flex justify-content-between align-items-center">
+                                                    <span>$4567</span>
+                                                    <a class="boxed-btn3-line" href="#">View Details</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="single_details">
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    <div class="modern_home_info">
+                                        <div class="modern_home_info_inner">
+                                                    <span class="for_sale">
+                                                        For Sale
+                                                    </span>
+                                            <div class="info_header">
+                                                <h3>Blue haven modern home</h3>
+                                                <div class="popular_pro d-flex">
+                                                    <img src="static/img/svg_icon/location.svg" alt="">
+                                                    <span>Popular Properties</span>
+                                                </div>
+                                            </div>
+                                            <div class="info_content">
+                                                <ul>
+                                                    <li><img src="static/img/svg_icon/square.svg" alt="">
+                                                        <span>1999 Sqft</span></li>
+                                                    <li><img src="static/img/svg_icon/bed.svg" alt="">
+                                                        <span>2 Bed</span>
+                                                    </li>
+                                                    <li><img src="static/img/svg_icon/bath.svg" alt="">
+                                                        <span>2 Bath</span>
+                                                    </li>
+                                                </ul>
+                                                <p>Esteem spirit temper too say adieus who direct esteem. It estee
+                                                    luckily
+                                                    or picture placing drawing. Apartments frequently or motionless on
+                                                    reasonable.</p>
+                                                <div class="prise_view_details d-flex justify-content-between align-items-center">
+                                                    <span>$4567</span>
+                                                    <a class="boxed-btn3-line" href="#">View Details</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -344,315 +500,172 @@
                             </div>
                         </div>
                     </div>
-                    <div class="single_details">
-                        <div class="row">
-                            <div class="col-xl-6 col-md-6">
-                                <div class="modern_home_info">
-                                    <div class="modern_home_info_inner">
-                                                    <span class="for_sale">
-                                                        For Sale
-                                                    </span>
-                                        <div class="info_header">
-                                            <h3>Blue haven modern home</h3>
-                                            <div class="popular_pro d-flex">
-                                                <img src="static/img/svg_icon/location.svg" alt="">
-                                                <span>Popular Properties</span>
-                                            </div>
-                                        </div>
-                                        <div class="info_content">
-                                            <ul>
-                                                <li><img src="static/img/svg_icon/square.svg" alt="">
-                                                    <span>1999 Sqft</span></li>
-                                                <li><img src="static/img/svg_icon/bed.svg" alt=""> <span>2 Bed</span>
-                                                </li>
-                                                <li><img src="static/img/svg_icon/bath.svg" alt=""> <span>2 Bath</span>
-                                                </li>
-                                            </ul>
-                                            <p>Esteem spirit temper too say adieus who direct esteem. It estee luckily
-                                                or picture placing drawing. Apartments frequently or motionless on
-                                                reasonable.</p>
-                                            <div class="prise_view_details d-flex justify-content-between align-items-center">
-                                                <span>$4567</span>
-                                                <a class="boxed-btn3-line" href="#">View Details</a>
-                                            </div>
-                                        </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /home_details  -->
+
+    <!-- accordion  -->
+    <div class="accordion_area">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-xl-6 col-lg-6">
+                    <div class="faq_ask">
+                        <h3>Frequently ask</h3>
+                        <div id="accordion">
+                            <div class="card">
+                                <div class="card-header" id="headingTwo">
+                                    <h5 class="mb-0">
+                                        <button class="btn btn-link collapsed" data-toggle="collapse"
+                                                data-target="#collapseTwo" aria-expanded="false"
+                                                aria-controls="collapseTwo">
+                                            Adieus who direct esteem <span>It esteems luckily?</span>
+                                        </button>
+                                    </h5>
+                                </div>
+                                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+                                     data-parent="#accordion"
+                                     style="">
+                                    <div class="card-body">Esteem spirit temper too say adieus who direct esteem esteems
+                                        luckily or picture placing drawing.
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="single_details">
-                        <div class="row">
-                            <div class="col-xl-6 col-md-6">
-                                <div class="modern_home_info">
-                                    <div class="modern_home_info_inner">
-                                                    <span class="for_sale">
-                                                        For Sale
-                                                    </span>
-                                        <div class="info_header">
-                                            <h3>Blue haven modern home</h3>
-                                            <div class="popular_pro d-flex">
-                                                <img src="static/img/svg_icon/location.svg" alt="">
-                                                <span>Popular Properties</span>
-                                            </div>
-                                        </div>
-                                        <div class="info_content">
-                                            <ul>
-                                                <li><img src="static/img/svg_icon/square.svg" alt="">
-                                                    <span>1999 Sqft</span></li>
-                                                <li><img src="static/img/svg_icon/bed.svg" alt=""> <span>2 Bed</span>
-                                                </li>
-                                                <li><img src="static/img/svg_icon/bath.svg" alt=""> <span>2 Bath</span>
-                                                </li>
-                                            </ul>
-                                            <p>Esteem spirit temper too say adieus who direct esteem. It estee luckily
-                                                or picture placing drawing. Apartments frequently or motionless on
-                                                reasonable.</p>
-                                            <div class="prise_view_details d-flex justify-content-between align-items-center">
-                                                <span>$4567</span>
-                                                <a class="boxed-btn3-line" href="#">View Details</a>
-                                            </div>
-                                        </div>
+                            <div class="card">
+                                <div class="card-header" id="headingOne">
+                                    <h5 class="mb-0">
+                                        <button class="btn btn-link collapsed" data-toggle="collapse"
+                                                data-target="#collapseOne" aria-expanded="false"
+                                                aria-controls="collapseOne">
+                                            Who direct esteem It esteems?
+                                        </button>
+                                    </h5>
+                                </div>
+                                <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
+                                     data-parent="#accordion"
+                                     style="">
+                                    <div class="card-body">Esteem spirit temper too say adieus who direct esteem esteems
+                                        luckily or picture placing drawing.
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="single_details">
-                        <div class="row">
-                            <div class="col-xl-6 col-md-6">
-                                <div class="modern_home_info">
-                                    <div class="modern_home_info_inner">
-                                                    <span class="for_sale">
-                                                        For Sale
-                                                    </span>
-                                        <div class="info_header">
-                                            <h3>Blue haven modern home</h3>
-                                            <div class="popular_pro d-flex">
-                                                <img src="static/img/svg_icon/location.svg" alt="">
-                                                <span>Popular Properties</span>
-                                            </div>
-                                        </div>
-                                        <div class="info_content">
-                                            <ul>
-                                                <li><img src="static/img/svg_icon/square.svg" alt="">
-                                                    <span>1999 Sqft</span></li>
-                                                <li><img src="static/img/svg_icon/bed.svg" alt=""> <span>2 Bed</span>
-                                                </li>
-                                                <li><img src="static/img/svg_icon/bath.svg" alt=""> <span>2 Bath</span>
-                                                </li>
-                                            </ul>
-                                            <p>Esteem spirit temper too say adieus who direct esteem. It estee luckily
-                                                or picture placing drawing. Apartments frequently or motionless on
-                                                reasonable.</p>
-                                            <div class="prise_view_details d-flex justify-content-between align-items-center">
-                                                <span>$4567</span>
-                                                <a class="boxed-btn3-line" href="#">View Details</a>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div class="card">
+                                <div class="card-header" id="headingThree">
+                                    <h5 class="mb-0">
+                                        <button class="btn btn-link collapsed" data-toggle="collapse"
+                                                data-target="#collapseThree" aria-expanded="false"
+                                                aria-controls="collapseThree">
+                                            Duis consectetur feugiat auctor?
+                                        </button>
+                                    </h5>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="single_details">
-                        <div class="row">
-                            <div class="col-xl-6">
-                                <div class="modern_home_info">
-                                    <div class="modern_home_info_inner">
-                                                    <span class="for_sale">
-                                                        For Sale
-                                                    </span>
-                                        <div class="info_header">
-                                            <h3>Blue haven modern home</h3>
-                                            <div class="popular_pro d-flex">
-                                                <img src="static/img/svg_icon/location.svg" alt="">
-                                                <span>Popular Properties</span>
-                                            </div>
-                                        </div>
-                                        <div class="info_content">
-                                            <ul>
-                                                <li><img src="static/img/svg_icon/square.svg" alt="">
-                                                    <span>1999 Sqft</span></li>
-                                                <li><img src="static/img/svg_icon/bed.svg" alt=""> <span>2 Bed</span>
-                                                </li>
-                                                <li><img src="static/img/svg_icon/bath.svg" alt=""> <span>2 Bath</span>
-                                                </li>
-                                            </ul>
-                                            <p>Esteem spirit temper too say adieus who direct esteem. It estee luckily
-                                                or picture placing drawing. Apartments frequently or motionless on
-                                                reasonable.</p>
-                                            <div class="prise_view_details d-flex justify-content-between align-items-center">
-                                                <span>$4567</span>
-                                                <a class="boxed-btn3-line" href="#">View Details</a>
-                                            </div>
-                                        </div>
+                                <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
+                                     data-parent="#accordion" style="">
+                                    <div class="card-body">Esteem spirit temper too say adieus who direct esteem esteems
+                                        luckily or picture placing drawing.
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-            </div>
-        </div>
-    </div>
-</div>
-<!-- /home_details  -->
-
-<!-- accordion  -->
-<div class="accordion_area">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-xl-6 col-lg-6">
-                <div class="faq_ask">
-                    <h3>Frequently ask</h3>
-                    <div id="accordion">
-                        <div class="card">
-                            <div class="card-header" id="headingTwo">
-                                <h5 class="mb-0">
-                                    <button class="btn btn-link collapsed" data-toggle="collapse"
-                                            data-target="#collapseTwo" aria-expanded="false"
-                                            aria-controls="collapseTwo">
-                                        Adieus who direct esteem <span>It esteems luckily?</span>
-                                    </button>
-                                </h5>
-                            </div>
-                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion"
-                                 style="">
-                                <div class="card-body">Esteem spirit temper too say adieus who direct esteem esteems
-                                    luckily or picture placing drawing.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header" id="headingOne">
-                                <h5 class="mb-0">
-                                    <button class="btn btn-link collapsed" data-toggle="collapse"
-                                            data-target="#collapseOne" aria-expanded="false"
-                                            aria-controls="collapseOne">
-                                        Who direct esteem It esteems?
-                                    </button>
-                                </h5>
-                            </div>
-                            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion"
-                                 style="">
-                                <div class="card-body">Esteem spirit temper too say adieus who direct esteem esteems
-                                    luckily or picture placing drawing.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header" id="headingThree">
-                                <h5 class="mb-0">
-                                    <button class="btn btn-link collapsed" data-toggle="collapse"
-                                            data-target="#collapseThree" aria-expanded="false"
-                                            aria-controls="collapseThree">
-                                        Duis consectetur feugiat auctor?
-                                    </button>
-                                </h5>
-                            </div>
-                            <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
-                                 data-parent="#accordion" style="">
-                                <div class="card-body">Esteem spirit temper too say adieus who direct esteem esteems
-                                    luckily or picture placing drawing.
-                                </div>
-                            </div>
-                        </div>
+                <div class="col-xl-6 col-lg-6">
+                    <div class="accordion_thumb">
+                        <img src="static/img/banner/accordion.png" alt="">
                     </div>
-                </div>
-            </div>
-            <div class="col-xl-6 col-lg-6">
-                <div class="accordion_thumb">
-                    <img src="static/img/banner/accordion.png" alt="">
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- accordion  -->
+    <!-- accordion  -->
 
-<!-- counter_area  -->
-<div class="counter_area">
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-4 col-md-4">
-                <div class="single_counter">
-                    <h3><span class="counter">999</span> <span>+</span></h3>
-                    <p>Properties for sale</p>
+    <!-- counter_area  -->
+    <div class="counter_area">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-4 col-md-4">
+                    <div class="single_counter">
+                        <h3><span class="counter">999</span> <span>+</span></h3>
+                        <p>Properties for sale</p>
+                    </div>
                 </div>
-            </div>
-            <div class="col-xl-4 col-md-4">
-                <div class="single_counter">
-                    <h3><span class="counter">300</span></h3>
-                    <p>Properties for sale</p>
+                <div class="col-xl-4 col-md-4">
+                    <div class="single_counter">
+                        <h3><span class="counter">300</span></h3>
+                        <p>Properties for sale</p>
+                    </div>
                 </div>
-            </div>
-            <div class="col-xl-4 col-md-4">
-                <div class="single_counter">
-                    <h3><span class="counter">15</span></h3>
-                    <p>Properties for sale</p>
+                <div class="col-xl-4 col-md-4">
+                    <div class="single_counter">
+                        <h3><span class="counter">15</span></h3>
+                        <p>Properties for sale</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- /counter_area  -->
+    <!-- /counter_area  -->
 
-<!-- testimonial_area  -->
-<div class="testimonial_area overlay ">
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="testmonial_active owl-carousel">
-                    <div class="single_carousel">
-                        <div class="single_testmonial text-center">
-                            <div class="quote">
-                                <img src="static/img/svg_icon/quote.svg" alt="">
-                            </div>
-                            <p>Donec imperdiet congue orci consequat mattis. Donec rutrum porttitor <br>
-                                sollicitudin. Pellentesque id dolor tempor sapien feugiat ultrices nec sed neque. <br>
-                                Fusce ac mattis nulla. Morbi eget ornare dui. </p>
-                            <div class="testmonial_author">
-                                <div class="thumb">
-                                    <img src="static/img/case/testmonial.png" alt="">
+    <!-- testimonial_area  -->
+    <div class="testimonial_area overlay ">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="testmonial_active owl-carousel">
+                        <div class="single_carousel">
+                            <div class="single_testmonial text-center">
+                                <div class="quote">
+                                    <img src="static/img/svg_icon/quote.svg" alt="">
                                 </div>
-                                <h3>Robert Thomson</h3>
-                                <span>Business Owner</span>
+                                <p>Donec imperdiet congue orci consequat mattis. Donec rutrum porttitor <br>
+                                    sollicitudin. Pellentesque id dolor tempor sapien feugiat ultrices nec sed neque.
+                                    <br>
+                                    Fusce ac mattis nulla. Morbi eget ornare dui. </p>
+                                <div class="testmonial_author">
+                                    <div class="thumb">
+                                        <img src="static/img/case/testmonial.png" alt="">
+                                    </div>
+                                    <h3>Robert Thomson</h3>
+                                    <span>Business Owner</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="single_carousel">
-                        <div class="single_testmonial text-center">
-                            <div class="quote">
-                                <img src="static/img/svg_icon/quote.svg" alt="">
-                            </div>
-                            <p>Donec imperdiet congue orci consequat mattis. Donec rutrum porttitor <br>
-                                sollicitudin. Pellentesque id dolor tempor sapien feugiat ultrices nec sed neque. <br>
-                                Fusce ac mattis nulla. Morbi eget ornare dui. </p>
-                            <div class="testmonial_author">
-                                <div class="thumb">
-                                    <img src="static/img/case/testmonial.png" alt="">
+                        <div class="single_carousel">
+                            <div class="single_testmonial text-center">
+                                <div class="quote">
+                                    <img src="static/img/svg_icon/quote.svg" alt="">
                                 </div>
-                                <h3>Robert Thomson</h3>
-                                <span>Business Owner</span>
+                                <p>Donec imperdiet congue orci consequat mattis. Donec rutrum porttitor <br>
+                                    sollicitudin. Pellentesque id dolor tempor sapien feugiat ultrices nec sed neque.
+                                    <br>
+                                    Fusce ac mattis nulla. Morbi eget ornare dui. </p>
+                                <div class="testmonial_author">
+                                    <div class="thumb">
+                                        <img src="static/img/case/testmonial.png" alt="">
+                                    </div>
+                                    <h3>Robert Thomson</h3>
+                                    <span>Business Owner</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="single_carousel">
-                        <div class="single_testmonial text-center">
-                            <div class="quote">
-                                <img src="static/img/svg_icon/quote.svg" alt="">
-                            </div>
-                            <p>Donec imperdiet congue orci consequat mattis. Donec rutrum porttitor <br>
-                                sollicitudin. Pellentesque id dolor tempor sapien feugiat ultrices nec sed neque. <br>
-                                Fusce ac mattis nulla. Morbi eget ornare dui. </p>
-                            <div class="testmonial_author">
-                                <div class="thumb">
-                                    <img src="static/img/case/testmonial.png" alt="">
+                        <div class="single_carousel">
+                            <div class="single_testmonial text-center">
+                                <div class="quote">
+                                    <img src="static/img/svg_icon/quote.svg" alt="">
                                 </div>
-                                <h3>Robert Thomson</h3>
-                                <span>Business Owner</span>
+                                <p>Donec imperdiet congue orci consequat mattis. Donec rutrum porttitor <br>
+                                    sollicitudin. Pellentesque id dolor tempor sapien feugiat ultrices nec sed neque.
+                                    <br>
+                                    Fusce ac mattis nulla. Morbi eget ornare dui. </p>
+                                <div class="testmonial_author">
+                                    <div class="thumb">
+                                        <img src="static/img/case/testmonial.png" alt="">
+                                    </div>
+                                    <h3>Robert Thomson</h3>
+                                    <span>Business Owner</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -660,154 +673,153 @@
             </div>
         </div>
     </div>
-</div>
-<!-- /testimonial_area  -->
+    <!-- /testimonial_area  -->
 
-<!-- team_area  -->
-<div class="team_area">
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="section_title mb-40 text-center">
-                    <h3>
-                        Our Agents
-                    </h3>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xl-3 col-lg-3 col-md-6">
-                <div class="single_team">
-                    <div class="team_thumb">
-                        <img src="static/img/team/1.png" alt="">
-                        <div class="social_link">
-                            <ul>
-                                <li><a href="#">
-                                    <i class="fa fa-facebook"></i>
-                                </a>
-                                </li>
-                                <li><a href="#">
-                                    <i class="fa fa-twitter"></i>
-                                </a>
-                                </li>
-                                <li><a href="#">
-                                    <i class="fa fa-instagram"></i>
-                                </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="team_info text-center">
-                        <h3>Milani Mou</h3>
-                        <p>Business Agent</p>
+    <!-- team_area  -->
+    <div class="team_area">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="section_title mb-40 text-center">
+                        <h3>
+                            Our Agents
+                        </h3>
                     </div>
                 </div>
             </div>
-            <div class="col-xl-3 col-lg-3 col-md-6">
-                <div class="single_team">
-                    <div class="team_thumb">
-                        <img src="static/img/team/2.png" alt="">
-                        <div class="social_link">
-                            <ul>
-                                <li><a href="#">
-                                    <i class="fa fa-facebook"></i>
-                                </a>
-                                </li>
-                                <li><a href="#">
-                                    <i class="fa fa-twitter"></i>
-                                </a>
-                                </li>
-                                <li><a href="#">
-                                    <i class="fa fa-instagram"></i>
-                                </a>
-                                </li>
-                            </ul>
+            <div class="row">
+                <div class="col-xl-3 col-lg-3 col-md-6">
+                    <div class="single_team">
+                        <div class="team_thumb">
+                            <img src="static/img/team/1.png" alt="">
+                            <div class="social_link">
+                                <ul>
+                                    <li><a href="#">
+                                        <i class="fa fa-facebook"></i>
+                                    </a>
+                                    </li>
+                                    <li><a href="#">
+                                        <i class="fa fa-twitter"></i>
+                                    </a>
+                                    </li>
+                                    <li><a href="#">
+                                        <i class="fa fa-instagram"></i>
+                                    </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-                    <div class="team_info text-center">
-                        <h3>Halim Yoka</h3>
-                        <p>Business Agent</p>
+                        <div class="team_info text-center">
+                            <h3>Milani Mou</h3>
+                            <p>Business Agent</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-xl-3 col-lg-3 col-md-6">
-                <div class="single_team">
-                    <div class="team_thumb">
-                        <img src="static/img/team/3.png" alt="">
-                        <div class="social_link">
-                            <ul>
-                                <li><a href="#">
-                                    <i class="fa fa-facebook"></i>
-                                </a>
-                                </li>
-                                <li><a href="#">
-                                    <i class="fa fa-twitter"></i>
-                                </a>
-                                </li>
-                                <li><a href="#">
-                                    <i class="fa fa-instagram"></i>
-                                </a>
-                                </li>
-                            </ul>
+                <div class="col-xl-3 col-lg-3 col-md-6">
+                    <div class="single_team">
+                        <div class="team_thumb">
+                            <img src="static/img/team/2.png" alt="">
+                            <div class="social_link">
+                                <ul>
+                                    <li><a href="#">
+                                        <i class="fa fa-facebook"></i>
+                                    </a>
+                                    </li>
+                                    <li><a href="#">
+                                        <i class="fa fa-twitter"></i>
+                                    </a>
+                                    </li>
+                                    <li><a href="#">
+                                        <i class="fa fa-instagram"></i>
+                                    </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-                    <div class="team_info text-center">
-                        <h3>Dalim Karma</h3>
-                        <p>Business Agent</p>
+                        <div class="team_info text-center">
+                            <h3>Halim Yoka</h3>
+                            <p>Business Agent</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-xl-3 col-lg-3 col-md-6">
-                <div class="single_team">
-                    <div class="team_thumb">
-                        <img src="static/img/team/4.png" alt="">
-                        <div class="social_link">
-                            <ul>
-                                <li><a href="#">
-                                    <i class="fa fa-facebook"></i>
-                                </a>
-                                </li>
-                                <li><a href="#">
-                                    <i class="fa fa-twitter"></i>
-                                </a>
-                                </li>
-                                <li><a href="#">
-                                    <i class="fa fa-instagram"></i>
-                                </a>
-                                </li>
-                            </ul>
+                <div class="col-xl-3 col-lg-3 col-md-6">
+                    <div class="single_team">
+                        <div class="team_thumb">
+                            <img src="static/img/team/3.png" alt="">
+                            <div class="social_link">
+                                <ul>
+                                    <li><a href="#">
+                                        <i class="fa fa-facebook"></i>
+                                    </a>
+                                    </li>
+                                    <li><a href="#">
+                                        <i class="fa fa-twitter"></i>
+                                    </a>
+                                    </li>
+                                    <li><a href="#">
+                                        <i class="fa fa-instagram"></i>
+                                    </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="team_info text-center">
+                            <h3>Dalim Karma</h3>
+                            <p>Business Agent</p>
                         </div>
                     </div>
-                    <div class="team_info text-center">
-                        <h3>Micky</h3>
-                        <p>Business Agent</p>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-6">
+                    <div class="single_team">
+                        <div class="team_thumb">
+                            <img src="static/img/team/4.png" alt="">
+                            <div class="social_link">
+                                <ul>
+                                    <li><a href="#">
+                                        <i class="fa fa-facebook"></i>
+                                    </a>
+                                    </li>
+                                    <li><a href="#">
+                                        <i class="fa fa-twitter"></i>
+                                    </a>
+                                    </li>
+                                    <li><a href="#">
+                                        <i class="fa fa-instagram"></i>
+                                    </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="team_info text-center">
+                            <h3>Micky</h3>
+                            <p>Business Agent</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- /team_area  -->
+    <!-- /team_area  -->
 
-<!-- contact_action_area  -->
-<div class="contact_action_area">
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-7">
-                <div class="action_heading">
-                    <h3>Add your properties for sale</h3>
+    <!-- contact_action_area  -->
+    <div class="contact_action_area">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-7">
+                    <div class="action_heading">
+                        <h3>Add your properties for sale</h3>
+                    </div>
                 </div>
-            </div>
-            <div class="col-xl-5">
-                <div class="call_add_action">
-                    <span>+10 637 367 4567</span>
-                    <a href="#" class="boxed-btn3-line">Add Property</a>
+                <div class="col-xl-5">
+                    <div class="call_add_action">
+                        <span>+10 637 367 4567</span>
+                        <a href="#" class="boxed-btn3-line">Add Property</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- /contact_action_area  -->
+    <!-- /contact_action_area  -->
 
 {% endblock %}
 <!-- footer start -->
@@ -941,6 +953,8 @@
 <script src="static/js/plugins.js"></script>
 <!-- <script src="static/js/gijgo.min.js"></script> -->
 <script src="static/js/slick.min.js"></script>
+<!-- Ion Slider -->
+<script src="static/js/ion.rangeSlider.min.js"></script>
 
 
 <!--contact js-->
@@ -953,7 +967,6 @@
 
 <script src="static/js/main.js"></script>
 <script>
-
 
 
     function submit_form() {
@@ -1029,6 +1042,19 @@
 
     $('.ui-slider-handle:eq(1)').append('<span class="price-range-max value" id="slider_max_val">' + $('#slider').slider('values', 1) +
         'L</span>');
+</script>
+<script>
+    $('#range_1').ionRangeSlider({
+        min: 0,
+        max: 999,
+        from: 0,
+        to: 999,
+        type: 'double',
+        step: 1,
+        prefix: '₹',
+        prettify: false,
+        hasGrid: true
+    })
 </script>
 </body>
 

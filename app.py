@@ -122,9 +122,12 @@ def properties():
             property_type = request.form['property_types']
             sale_type = request.form['sale_types']
             condition = request.form['condition']
-            range_min = float(str(request.form['min_val']).split('L')[0]) * 100000
-            range_max = float(str(request.form['max_val']).split('L')[0]) * 100000
+            range_min = float(str(request.form['range_1']).split(';')[0]) * 100000
+            range_max = float(str(request.form['range_1']).split(';')[1]) * 100000
+            # _range = str(request.form['range_1'])
+            print(range_min, range_max)
             property_list = db_config.get_requested_properties(location, property_type, sale_type, range_max, range_min)
+            # property_list = []
         else:
             property_list = db_config.get_all_properties()
 
