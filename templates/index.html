@@ -77,12 +77,17 @@
             <div class="container">
                 <div class="header_bottom_border">
                     <div class="row align-items-center">
-                        <div class="col-12">
+                        <div class="col-xl-3 col-lg-2" style="z-index: -1">
+                            <div class="logo">
+                                <a href="/">
+                                    <h3 style="color: white">Visamo</h3>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xl-10 col-lg-8">
                             <div class="main-menu  d-none d-lg-block">
                                 <nav>
                                     <ul id="navigation">
-                                        <li style="float: left"><a href="{{ url_for('index') }}"><h3
-                                                style="color: white">Visamo</h3></a></li>
                                         {% block dynamic %}
                                             <li><a class="active" href="{{ url_for('index') }}">Home</a></li>
                                             <li><a class="" href="{{ url_for('properties') }}">Property</a></li>
@@ -104,7 +109,7 @@
                                             {% endif %}
                                         {% endblock %}
                                         {% if username %}
-                                            <li style="float:right"><a href="#">{{ username }}&nbsp;&nbsp; <i
+                                            <li><a href="#">{{ username }}&nbsp;&nbsp; <i
                                                     class="ti-angle-down"></i></a>
                                                 <ul class="submenu">
                                                     <li><a href="{{ url_for('register_property') }}">Add property</a>

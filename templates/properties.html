@@ -28,7 +28,7 @@
                                 <form action="{{ url_for('properties') }}" method="post" id="search_form">
                                     <div class="row">
                                         <div class="col-xl-12">
-                                            <div class="form_wrap d-flex">
+                                            <div class="form_wrap d-flex justify-content-center">
                                                 <div class="single-field max_width ">
                                                     <label for="location_list">Location</label>
                                                     <select class="wide" id="location_list" name="location_list">
@@ -39,7 +39,7 @@
 
                                                     </select>
                                                 </div>
-                                                <div class="single-field max_width ">
+                                                <div class="single-field max_width">
                                                     <label for="property_types">Property type</label>
                                                     <select class="wide" id="property_types" name="property_types">
 
@@ -69,20 +69,24 @@
                                                     </select>
                                                 </div>
 
-                                                <div class="single_field range_slider">
-                                                    <label for="slider">Price Range</label>
-                                                    <div id="slider">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-xl-12">
+                                            <div class="form_wrap d-flex justify-content-center">
+                                                <div class="single_field col-md-4 mr-lg-5 mb-3">
+                                                    <div class="col-12">
+                                                        <label for="range_1" style="color: #fdae5c">Price</label>
+                                                        <input id="range_1" type="text" name="range_1" value="">
                                                     </div>
-                                                    <input type="hidden" id="minval" name="min_val" value="0">
-                                                    <input type="hidden" id="maxval" name="max_val" value="999">
                                                 </div>
-                                                <div class="serach_icon"
+                                                <div class="serach_icon mt-4"
                                                      onclick="document.getElementById('search_form').submit();">
                                                     <a href="#">
                                                         <i class="ti-search"></i>
                                                     </a>
                                                 </div>
-
                                             </div>
                                         </div>
                                     </div>
