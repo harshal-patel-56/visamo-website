@@ -240,34 +240,37 @@
         <div class="row">
             {% for property in property_list %}
 
-                {% if property[3] == "Buy" %}
+                {% if property[3] == "Sale" %}
                             {% set col = '' %}
                         {% elif property[3] == "Rent" %}
                             {% set col = 'red' %}
                         {% else %}
                             {% set col = 'blue' %}
                         {% endif %}
-            <div class="col-xl-4 col-md-6 col-lg-4">
-                <div class="single_property">
-                    <div class="property_thumb">
-                        <div class="property_tag {{ col }}">
-                            For {{ property[3]  }}
-                        </div>
-                        <img src="{{ property[6] }}" alt="">
-                    </div>
-                    <div class="property_content">
-                        <div class="main_pro">
-                            <h3><a href="{{ url_for('display_property') }}?p_id={{ property[7] }}">{{ property[0] }}</a></h3>
-                            <div class="mark_pro">
-                                <img src="static/img/svg_icon/location.svg" alt="">
-                                <span>{{ property[2] }}</span>
+                <div class="col-xl-4 col-md-6 col-lg-4">
+                    <div class="single_property">
+                        <div class="property_thumb">
+                            <div class="property_tag {{ col }}">
+                                For {{ property[3] }}
                             </div>
-                            <span class="amount">₹{{ property[4] / 100000 | round(2) }} Lakh {{ '/ Year' if col == 'red' else '' }}</span>
+                            <img src="{{ property[6] }}" alt="">
                         </div>
-                    </div>
-                    <div class="footer_pro">
-                        <ul>
-                            <li>
+                        <div class="property_content">
+                            <div class="main_pro">
+                                <h3>
+                                    {#                                <a href="{{ url_for('display_property') }}?p_id={{ property[7] }}">{{ property[0] }}</a>#}
+                                    <a href="#">{{ property[0] }}</a>
+                                </h3>
+                                <div class="mark_pro">
+                                    <img src="static/img/svg_icon/location.svg" alt="">
+                                    <span>{{ property[2] }}</span>
+                                </div>
+                                <span class="amount">₹{{ property[4] / 100000 | round(2) }} Lakh {{ '/ Year' if col == 'red' else '' }}</span>
+                            </div>
+                        </div>
+                        <div class="footer_pro">
+                            <ul>
+                                <li>
                                 <div class="single_info_doc">
                                     <img src="static/img/svg_icon/square.svg" alt="">
                                     <span>{{ property[5] }} Sqft</span>

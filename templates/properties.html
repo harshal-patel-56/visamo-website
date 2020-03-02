@@ -107,7 +107,7 @@
             <div class="row">
                 {% for property in property_list %}
 
-                    {% if property[3] == "Buy" %}
+                    {% if property[3] == "Sale" %}
                         {% set col = '' %}
                     {% elif property[3] == "Rent" %}
                         {% set col = 'red' %}
@@ -125,7 +125,8 @@
                             <div class="property_content">
                                 <div class="main_pro">
                                     <h3>
-                                        <a href="{{ url_for('display_property') }}?p_id={{ property[7] }}">{{ property[0] }}</a>
+                                        {#                                        <a href="{{ url_for('display_property') }}?p_id={{ property[7] }}">{{ property[0] }}</a>#}
+                                        <a href="#">{{ property[0] }}</a>
                                     </h3>
                                     <div class="mark_pro">
                                         <img src="static/img/svg_icon/location.svg" alt="">
@@ -140,7 +141,7 @@
                                     <li>
                                         <div class="single_info_doc">
                                             <img src="static/img/svg_icon/square.svg" alt="">
-                                            <span>{{ property[5] }}</span>
+                                            <span>{{ property[5] }} Sqft</span>
                                         </div>
                                     </li>
 

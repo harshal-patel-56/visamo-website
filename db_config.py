@@ -203,7 +203,7 @@ def approve(PROPERTY_ID):
 
 # Method for login validation
 def get_login(id, password):
-    query = f"""SELECT username, password FROM user"""
+    query = f"""SELECT `email`, `password` FROM `user`"""
     db_cursor.execute(query)
     user_list = db_cursor.fetchall()
     for u_id, u_password in user_list:
@@ -215,16 +215,16 @@ def get_login(id, password):
 
 
 # Method to register a new user
-def register_user(username, password, f_name, l_name, contact, email):
-    query = f"""SELECT username from user"""
+def register_user(password, f_name, l_name, contact, email):
+    query = f"""SELECT `email` from `user`"""
     db_cursor.execute(query)
     list_of_registered_users = db_cursor.fetchall()
     checklist = []
     for i in list_of_registered_users:
         checklist.append(i[0])
-    if username not in checklist:
-        query = f"""INSERT INTO `user` (`username`, `password`, `first_name`, `last_name`, `phone_number`, `email`, `has_subscribed`, `is_pro_enabled`) 
-                    VALUES ('{real_escape_string(username)}', '{real_escape_string(password)}', '{real_escape_string(f_name)}', '{real_escape_string(l_name)}', '{real_escape_string(contact)}', '{real_escape_string(email)}', 0, 0);"""
+    if email not in checklist:
+        query = f"""INSERT INTO `user` (`password`, `first_name`, `last_name`, `phone_number`, `email`, `has_subscribed`, `is_pro_enabled`) 
+                    VALUES ('{real_escape_string(password)}', '{real_escape_string(f_name)}', '{real_escape_string(l_name)}', '{real_escape_string(contact)}', '{real_escape_string(email)}', 0, 0);"""
         db_cursor.execute(query)
         db.commit()
         return True

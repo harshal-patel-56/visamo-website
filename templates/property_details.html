@@ -15,7 +15,7 @@
 
     {#banner area start#}
     {% for property_info in property_info %}
-        {% if property_info[7] == "Buy" %}
+        {% if property_info[7] == "Sale" %}
             {% set col = '' %}
         {% elif property_info[7] == "Rent" %}
             {% set col = 'red' %}
